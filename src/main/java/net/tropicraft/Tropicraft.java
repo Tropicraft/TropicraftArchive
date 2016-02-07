@@ -11,10 +11,10 @@ import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
 import net.tropicraft.proxy.CommonProxy;
 
 @Mod(modid = "tropicraft", name="tropicraft", version="v0.1")
-public class Tropitest {
+public class Tropicraft {
 	
 	@Mod.Instance( value = "tropicraft" )
-	public static Tropitest instance;
+	public static Tropicraft instance;
 	public static String modID = "tropicraft";
     
 	@SidedProxy(clientSide = "net.tropicraft.proxy.ClientProxy", serverSide = "net.tropicraft.proxy.CommonProxy")

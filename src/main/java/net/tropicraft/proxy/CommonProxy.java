@@ -7,7 +7,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.common.registry.LanguageRegistry;
-import net.tropicraft.Tropitest;
+import net.tropicraft.Tropicraft;
 import net.tropicraft.block.BlockBasic;
 
 public class CommonProxy
@@ -42,10 +42,10 @@ public class CommonProxy
 	}
 	
 	public static ResourceLocation getResource(String name) {
-    	return new ResourceLocation(Tropitest.modID, name);
+    	return new ResourceLocation(Tropicraft.modID, name);
     }
     
     public static String getNamePrefixed(String name) {
-    	return Tropitest.modID + "." + name;
+    	return Tropicraft.modID + "." + name;
     }
 }
