@@ -1,82 +1,38 @@
 package net.tropicraft.proxy;
 
-import net.minecraft.client.model.ModelBiped;
-import net.minecraftforge.client.MinecraftForgeClient;
-import net.tropicraft.Tropicraft;
-import net.tropicraft.client.entity.model.ModelScubaGear;
-import net.tropicraft.client.renderer.block.AirCompressorRenderHandler;
-import net.tropicraft.client.renderer.block.BambooChestRenderHandler;
-import net.tropicraft.client.renderer.block.BambooShootRenderHandler;
-import net.tropicraft.client.renderer.block.CoffeePlantRenderHandler;
-import net.tropicraft.client.renderer.block.CurareBowlRenderHandler;
-import net.tropicraft.client.renderer.block.EIHMixerRenderHandler;
-import net.tropicraft.client.renderer.block.FlowerPotRenderHandler;
-import net.tropicraft.client.renderer.block.TikiTorchRenderHandler;
-import net.tropicraft.client.renderer.item.ItemDiveComputerRenderer;
-import net.tropicraft.encyclopedia.Encyclopedia;
-import net.tropicraft.info.TCInfo;
-import net.tropicraft.info.TCRenderIDs;
-import net.tropicraft.registry.TCCraftingRegistry;
-import net.tropicraft.registry.TCItemRegistry;
-import net.tropicraft.registry.TCRenderRegistry;
-import cpw.mods.fml.client.registry.RenderingRegistry;
 
-public class ClientProxy extends CommonProxy {
+import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.item.Item;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import net.tropicraft.Tropitest;
+@SideOnly(Side.CLIENT)
+public class ClientProxy extends CommonProxy
+{
+    
+    public ClientProxy()
+    {
+        
+    }
 
-    public ClientProxy() {
-
+    @Override
+    public void init()
+    {
+        super.init();
+        
+        
     }
     
     @Override
-    public void registerBooks() {
-    	Tropicraft.encyclopedia = new Encyclopedia("eTsave.dat",
-				TCInfo.TEXTURE_GUI_LOC + "EncyclopediaTropica.txt", 
-				"encyclopediaTropica", 
-				"encyclopediaTropicaInside");
-    	TCCraftingRegistry.addItemsToEncyclopedia(); // registers items for encyclopedia
-    }
-
-    @Override
-    public void initRenderHandlersAndIDs() {
-        TCRenderIDs.coffeePlant = RenderingRegistry.getNextAvailableRenderId();
-        TCRenderIDs.tikiTorch = RenderingRegistry.getNextAvailableRenderId();
-        TCRenderIDs.flowerPot = RenderingRegistry.getNextAvailableRenderId();
-        TCRenderIDs.bambooChest = RenderingRegistry.getNextAvailableRenderId();
-     //TODO SCUBA   TCRenderIDs.airCompressor = RenderingRegistry.getNextAvailableRenderId();
-        TCRenderIDs.bambooShoot = RenderingRegistry.getNextAvailableRenderId();
-        TCRenderIDs.curareBowl = RenderingRegistry.getNextAvailableRenderId();
-        TCRenderIDs.eihMixer = RenderingRegistry.getNextAvailableRenderId();
-
-        RenderingRegistry.registerBlockHandler(new CoffeePlantRenderHandler());
-        RenderingRegistry.registerBlockHandler(new TikiTorchRenderHandler());
-        RenderingRegistry.registerBlockHandler(new FlowerPotRenderHandler());
-        RenderingRegistry.registerBlockHandler(new BambooChestRenderHandler());
-     //   RenderingRegistry.registerBlockHandler(new AirCompressorRenderHandler());
-        RenderingRegistry.registerBlockHandler(new BambooShootRenderHandler());
-        RenderingRegistry.registerBlockHandler(new CurareBowlRenderHandler());
-        RenderingRegistry.registerBlockHandler(new EIHMixerRenderHandler());
-
-      //  MinecraftForgeClient.registerItemRenderer(TCItemRegistry.diveComputer, new ItemDiveComputerRenderer());
-    }
-
-    @Override
-    public void initRenderRegistry() {
-        TCRenderRegistry.initEntityRenderers();
-        TCRenderRegistry.initTileEntityRenderers();
-    }
-
-    @Override
-    public ModelBiped getArmorModel(int id) {
-        if (id == 0) {
-            return new ModelScubaGear();
-        }
-
-        return null;
+    public void addBlock(Block parBlock, String unlocalizedName) {
+    	super.addBlock(parBlock, unlocalizedName);
+    	
+    	registerItemRender(Item.getItemFromBlock(parBlock), 0, new ModelResourceLocation(Tropitest.modID + ":" + unlocalizedName, "inventory"));
     }
     
-    @Override
-    public void preInit() {
-
+    public void registerItemRender(Item item, int meta, ModelResourceLocation location) {
+    	Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, meta, location);
     }
-
 }
