@@ -2,6 +2,7 @@ package net.tropicraft.proxy;
 
 
 import net.minecraft.block.Block;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -36,8 +37,8 @@ public class CommonProxy
 		//new 1.8 stuff
 		parBlock.setUnlocalizedName(getNamePrefixed(unlocalizedName));
 		
-		//parBlock.setCreativeTab(tab);
-		LanguageRegistry.addName(parBlock, "BLARG");
+		parBlock.setCreativeTab(CreativeTabs.tabAllSearch);
+		//LanguageRegistry.addName(parBlock, "BLARG");
 	}
 	
 	public static ResourceLocation getResource(String name) {
