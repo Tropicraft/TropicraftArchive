@@ -9,11 +9,14 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.common.registry.LanguageRegistry;
 import net.tropicraft.Tropicraft;
 import net.tropicraft.block.BlockBasic;
+import net.tropicraft.block.BlockTropicraftLeaf;
+import net.tropicraft.block.BlockVariant;
 
 public class CommonProxy
 {
 
 	public static Block blockBasicChunk = new BlockBasic();
+	public static Block blockLeaf = new BlockVariant();
 	
     public CommonProxy()
     {
@@ -23,6 +26,7 @@ public class CommonProxy
     public void init()
     {
     	addBlock(blockBasicChunk, "chunk");
+    	addBlock(blockLeaf, "leaf");
     }
     
     public void addBlock(Block block, Class tEnt, String unlocalizedName) {

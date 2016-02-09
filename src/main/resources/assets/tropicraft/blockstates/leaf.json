@@ -1,0 +1,18 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "minecraft:cube_all",
+    "textures": { "all": "tropicraft:blocks/chunk" },
+    "transform": "forge:default-block"
+  },
+  "variants": {
+    "variant": {
+      "palm": { "textures": { "all": "tropicraft:blocks/leafPalm" } },
+      "kapok": { "textures": { "all": "tropicraft:blocks/leafKapok" } }
+    },
+    
+	"inventory": [{ "model": "builtin/generated", "transform": "forge:default-item", "textures": { "layer0": "tropicraft:blocks/leafPalm" } }],
+    "inventory_palm": [{ "model": "builtin/generated", "transform": "forge:default-item", "textures": { "layer0": "tropicraft:blocks/leafPalm" } }],
+    "inventory_kapok": [{ "model": "builtin/generated", "transform": "forge:default-item", "textures": { "layer0": "tropicraft:blocks/leafKapok" } }]
+  }
+}
