@@ -9,8 +9,10 @@ import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
 import net.tropicraft.proxy.CommonProxy;
+import net.tropicraft.registry.BlockRegistry;
+import net.tropicraft.registry.ItemRegistry;
 
-@Mod(modid = "tropicraft", name="tropicraft", version="v0.1")
+@Mod(modid = Info.MODID, name=Info.NAME, version=Info.VERSION)
 public class Tropicraft {
 	
 	@Mod.Instance( value = "tropicraft" )
@@ -21,14 +23,13 @@ public class Tropicraft {
     public static CommonProxy proxy;
 	
 	@Mod.EventHandler
-    public void preInit(FMLPreInitializationEvent event)
-    {
-		
+    public void preInit(FMLPreInitializationEvent event) {
+		BlockRegistry.init();
+		ItemRegistry.init();
     }
     
 	@Mod.EventHandler
-    public void init(FMLInitializationEvent event)
-    {
+    public void init(FMLInitializationEvent event) {
 		proxy.init();
     }
     

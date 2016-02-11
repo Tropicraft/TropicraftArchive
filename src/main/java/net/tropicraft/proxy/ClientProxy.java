@@ -3,11 +3,14 @@ package net.tropicraft.proxy;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.tropicraft.Info;
 import net.tropicraft.Tropicraft;
 @SideOnly(Side.CLIENT)
 public class ClientProxy extends CommonProxy
@@ -42,5 +45,13 @@ public class ClientProxy extends CommonProxy
     public void registerItemRender(Item item, int meta, String unlocalizedName, String location) {
     	//ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(Tropicraft.modID + ":" + unlocalizedName, "inventory"));
     	Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, meta, new ModelResourceLocation(Tropicraft.modID + ":" + unlocalizedName, location));
+    }
+    
+    @Override
+    public void registerItemVariantModel(Item item, String name, int metadata) {
+        if (item != null) { 
+            ModelBakery.registerItemVariants(item, new ResourceLocation(Info.MODID + ":" + name));
+            ModelLoader.setCustomModelResourceLocation(item, metadata, new ModelResourceLocation(Info.MODID + ":" + name, "inventory"));
+        }
     }
 }

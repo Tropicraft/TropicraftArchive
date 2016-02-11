@@ -3,19 +3,17 @@ package net.tropicraft.proxy;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.common.registry.LanguageRegistry;
 import net.tropicraft.Tropicraft;
-import net.tropicraft.block.BlockBasic;
-import net.tropicraft.block.BlockTropicraftLeaf;
 import net.tropicraft.block.BlockVariant;
 
 public class CommonProxy
 {
 
-	public static Block blockBasicChunk = new BlockBasic();
+//	public static Block blockBasicChunk = new BlockBasic();
 	public static Block blockLeaf = new BlockVariant();
 	
     public CommonProxy()
@@ -25,7 +23,7 @@ public class CommonProxy
 
     public void init()
     {
-    	addBlock(blockBasicChunk, "chunk");
+    //	addBlock(blockBasicChunk, "chunk");
     	addBlock(blockLeaf, "leaf");
     }
     
@@ -50,6 +48,8 @@ public class CommonProxy
     }
     
     public static String getNamePrefixed(String name) {
-    	return Tropicraft.modID + "." + name;
+    	return Tropicraft.modID + ":" + name;
     }
+    
+    public void registerItemVariantModel(Item item, String name, int metadata) {}
 }
