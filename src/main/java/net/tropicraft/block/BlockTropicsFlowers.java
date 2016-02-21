@@ -30,7 +30,7 @@ public class BlockTropicsFlowers extends BlockBush implements ITropicraftBlock {
     
     @Override
     public String getStateName(IBlockState state) {
-        return ((TropicraftFlowers) state.getValue(VARIANT)).getName() + "_flower";
+        return ((TropicraftFlowers) state.getValue(VARIANT)).getName();
     }
 	
 	public BlockTropicsFlowers(String[] names) {

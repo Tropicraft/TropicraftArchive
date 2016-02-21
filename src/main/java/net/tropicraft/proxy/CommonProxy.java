@@ -52,4 +52,5 @@ public class CommonProxy
     }
     
     public void registerItemVariantModel(Item item, String name, int metadata) {}
+    public void registerItemVariantModel(Item item, String registryName, int metadata, String variantName) {}
 }

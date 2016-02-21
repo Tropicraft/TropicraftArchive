@@ -110,7 +110,7 @@ public class BlockRegistry extends TropicraftRegistry {
             {
                 String stateName = tcBlock.getStateName(state);
                 int stateMeta = block.getMetaFromState(state);
-                registerBlockVariant(block, stateName, stateMeta);
+                registerBlockVariant(block, name, stateMeta, "variant=" + stateName);
             }
         }
 
@@ -123,6 +123,12 @@ public class BlockRegistry extends TropicraftRegistry {
 	public static void registerBlockVariant(Block block, String stateName, int stateMeta) {
         Item item = Item.getItemFromBlock(block);
         Tropicraft.proxy.registerItemVariantModel(item, stateName, stateMeta);
+    }
+	
+	public static void registerBlockVariant(Block block, String registryName, int stateMeta, String variantName) {
+        Item item = Item.getItemFromBlock(block);
+        System.err.println("Registering " + registryName + " and " + variantName);
+        Tropicraft.proxy.registerItemVariantModel(item, registryName, stateMeta, variantName);
     }
 	
     // return all of the different 'preset' variants of a block
