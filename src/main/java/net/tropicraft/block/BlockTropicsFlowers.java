@@ -2,7 +2,8 @@ package net.tropicraft.block;
 
 import java.util.List;
 
-import net.minecraft.block.Block;
+import net.minecraft.block.BlockBush;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
@@ -13,28 +14,29 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.tropicraft.enums.TropicraftOres;
+import net.tropicraft.enums.TropicraftFlowers;
 
-public class BlockTropicraftOreBlock extends BlockTropicraft implements ITropicraftBlock {
+public class BlockTropicsFlowers extends BlockBush implements ITropicraftBlock {
 
-    public static final PropertyEnum VARIANT = PropertyEnum.create("variant", TropicraftOres.class);
+    public static final PropertyEnum VARIANT = PropertyEnum.create("variant", TropicraftFlowers.class);
+    
+    /** Flower names */
+    public String[] names;
     
     @Override
     protected BlockState createBlockState() {
     	return new BlockState(this, new IProperty[] { VARIANT });
     }
     
+    @Override
     public String getStateName(IBlockState state) {
-        return ((TropicraftOres) state.getValue(VARIANT)).getName();
+        return ((TropicraftFlowers) state.getValue(VARIANT)).getName() + "_flower";
     }
 	
-	public BlockTropicraftOreBlock() {
-		super(Material.rock);
-        this.setHardness(5.0F);
-        this.setResistance(10.0F);
-        this.setStepSound(Block.soundTypeStone);
-        this.setHarvestLevel("pickaxe", 2);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, TropicraftOres.ZIRCON));
+	public BlockTropicsFlowers(String[] names) {
+		super(Material.plants, MapColor.greenColor);
+		this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, TropicraftFlowers.COMMELINA_DIFFUSA));
+		this.names = names;
 	}
 	
     /**
@@ -42,19 +44,19 @@ public class BlockTropicraftOreBlock extends BlockTropicraft implements ITropicr
      */
     @SideOnly(Side.CLIENT)
     public void getSubBlocks(Item item, CreativeTabs tab, List<ItemStack> list) {        
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < names.length; i++) {
         	list.add(new ItemStack(item, 1, i));
         }
     }
 
     @Override
     public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(VARIANT, TropicraftOres.values()[meta]);
+        return this.getDefaultState().withProperty(VARIANT, TropicraftFlowers.values()[meta]);
     }
     
     @Override
     public int getMetaFromState(IBlockState state) {
-        return ((TropicraftOres) state.getValue(VARIANT)).ordinal();
+        return ((TropicraftFlowers) state.getValue(VARIANT)).ordinal();
     }
     
     @Override
@@ -66,4 +68,5 @@ public class BlockTropicraftOreBlock extends BlockTropicraft implements ITropicr
 	public IProperty[] getProperties() {
 		return new IProperty[] {VARIANT};
 	}
+
 }

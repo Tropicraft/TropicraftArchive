@@ -3,8 +3,11 @@ package net.tropicraft.registry;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Stack;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -15,8 +18,12 @@ import net.tropicraft.block.BlockChunkOHead;
 import net.tropicraft.block.BlockTropicraftOre;
 import net.tropicraft.block.BlockTropicraftOreBlock;
 import net.tropicraft.block.BlockTropicraftStairs;
+import net.tropicraft.block.BlockTropicsFlowers;
+import net.tropicraft.block.ITropicraftBlock;
 import net.tropicraft.enums.TropicraftOres;
 import net.tropicraft.item.ItemBlockTropicraft;
+
+import com.google.common.collect.ImmutableSet;
 
 public class BlockRegistry extends TropicraftRegistry {
 	
@@ -26,6 +33,10 @@ public class BlockRegistry extends TropicraftRegistry {
 	// Ores
 	public static Block oreAzurite, oreEudialyte, oreZircon;
 	public static Block oreBlock;
+	
+	public static Block flowers;
+    public static final String[] flowerNames = {"commelina_diffusa", "crocosmia", "orchid", "canna", "anemone", "orange_anthurium", "red_anthurium", "magic_mushroom", "pathos", "acai_vine",
+        "croton", "dracaena", "fern", "foilage", "bromeliad"};
 	
 	/**
 	 * Register blocks in preInit
@@ -37,6 +48,7 @@ public class BlockRegistry extends TropicraftRegistry {
 		oreEudialyte = registerBlock(new BlockTropicraftOre(), "oreEudialyte");
 		oreZircon = registerBlock(new BlockTropicraftOre(), "oreZircon");
 		oreBlock = registerMultiBlock(new BlockTropicraftOreBlock(), "oreBlock", new String[]{"blockOreAzurite", "blockOreEudialyte", "blockOreZircon"});
+		flowers = registerMultiBlock(new BlockTropicsFlowers(flowerNames), "flower", flowerNames);
 	}
 	
 	private static Block registerBlock(Block block, String name) {
@@ -81,9 +93,27 @@ public class BlockRegistry extends TropicraftRegistry {
 		GameRegistry.registerBlock(block, clazz, name, namesList);
 		block.setUnlocalizedName(getNamePrefixed(name));
 		int count = 0;
-        for (TropicraftOres variant : TropicraftOres.values()) {
-            registerBlockVariant(block, variant.getName(), count++);
+		
+		// get the preset blocks variants
+        ImmutableSet<IBlockState> presets = getBlockPresets(block);
+        ITropicraftBlock tcBlock = (ITropicraftBlock)block;
+        
+        if (presets.isEmpty())
+        {
+            // block has no sub-blocks to register
+            registerBlockVariant(block, name, 0);
         }
+        else
+        {
+            // register all the sub-blocks
+            for (IBlockState state : presets)
+            {
+                String stateName = tcBlock.getStateName(state);
+                int stateMeta = block.getMetaFromState(state);
+                registerBlockVariant(block, stateName, stateMeta);
+            }
+        }
+
         block.setCreativeTab(CreativeTabs.tabBlock);
         
         return block;
@@ -93,5 +123,49 @@ public class BlockRegistry extends TropicraftRegistry {
 	public static void registerBlockVariant(Block block, String stateName, int stateMeta) {
         Item item = Item.getItemFromBlock(block);
         Tropicraft.proxy.registerItemVariantModel(item, stateName, stateMeta);
+    }
+	
+    // return all of the different 'preset' variants of a block
+    // works by looping through all the different values of the properties specified in block.getProperties()
+    // only works on blocks supporting ITropicraft - returns an empty set for vanilla blocks
+	// Thanks to our friends at BoP for this awesome code
+    public static ImmutableSet<IBlockState> getBlockPresets(Block block) {
+        if (!(block instanceof ITropicraftBlock)) {return ImmutableSet.<IBlockState>of();}
+        IBlockState defaultState = block.getDefaultState();
+        if (defaultState == null) {defaultState = block.getBlockState().getBaseState();}
+        return getStatesSet(defaultState, ((ITropicraftBlock)block).getProperties());        
+    }    
+    
+    // returns a set of states, one for every possible combination of values from the provided properties
+    public static ImmutableSet<IBlockState> getStatesSet(IBlockState baseState, IProperty... properties)
+    {        
+        Stack<IProperty> propStack = new Stack<IProperty>();
+        List<IBlockState> states = new ArrayList<IBlockState>();
+        for (IProperty prop : properties) {propStack.push(prop);}
+        if (!propStack.isEmpty())
+        {
+            addStatesToList(baseState, states, propStack);
+        }
+        ImmutableSet<IBlockState> ret = ImmutableSet.copyOf(states);
+        return ret;
+    }
+    
+    // recursively add state values to a list
+    private static void addStatesToList(IBlockState state, List<IBlockState> list, Stack<IProperty> stack)
+    {    
+        if (stack.empty())
+        {
+            list.add(state);
+            return;
+        }
+        else
+        {
+            IProperty prop = stack.pop();        
+            for (Object value : prop.getAllowedValues())
+            {
+                addStatesToList(state.withProperty(prop, (Comparable)value), list, stack);
+            }
+            stack.push(prop);
+        }
     }
 }
