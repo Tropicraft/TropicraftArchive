@@ -18,6 +18,7 @@ import net.tropicraft.enums.TropicraftOres;
 public class BlockTropicraftOreBlock extends BlockTropicraft implements ITropicraftBlock {
 
     public static final PropertyEnum VARIANT = PropertyEnum.create("variant", TropicraftOres.class);
+    public String[] names;
     
     @Override
     protected BlockState createBlockState() {
@@ -28,8 +29,9 @@ public class BlockTropicraftOreBlock extends BlockTropicraft implements ITropicr
         return ((TropicraftOres) state.getValue(VARIANT)).getName();
     }
 	
-	public BlockTropicraftOreBlock() {
+	public BlockTropicraftOreBlock(String[] names) {
 		super(Material.rock);
+		this.names = names;
         this.setHardness(5.0F);
         this.setResistance(10.0F);
         this.setStepSound(Block.soundTypeStone);
@@ -42,7 +44,7 @@ public class BlockTropicraftOreBlock extends BlockTropicraft implements ITropicr
      */
     @SideOnly(Side.CLIENT)
     public void getSubBlocks(Item item, CreativeTabs tab, List<ItemStack> list) {        
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < names.length; i++) {
         	list.add(new ItemStack(item, 1, i));
         }
     }

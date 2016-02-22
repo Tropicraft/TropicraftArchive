@@ -57,7 +57,7 @@ public class ClientProxy extends CommonProxy
     
     @Override
     public void registerItemVariantModel(Item item, String registryName, int metadata, String variantName) {
-        if (item != null) { 
+        if (item != null) {
             ModelLoader.setCustomModelResourceLocation(item, metadata, new ModelResourceLocation(Info.MODID + ":" + registryName, variantName));
         }
     }

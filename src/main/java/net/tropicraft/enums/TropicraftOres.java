@@ -7,9 +7,7 @@ public enum TropicraftOres implements IStringSerializable {
 
     @Override
     public String getName() {
-    	if (this == AZURITE) return "blockOreAzurite";
-    	else if (this == EUDIALYTE) return "blockOreEudialyte";
-    	else return "blockOreZircon";
+    	return this.name().toLowerCase() + "_oreblock";
     }
     
     @Override

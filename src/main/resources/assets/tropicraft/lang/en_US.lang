@@ -4,9 +4,24 @@ tile.tropicraft:chunkStairs.name=Chunk O' Head Stairs
 tile.tropicraft:oreEudialyte.name=Eudialyte Ore
 tile.tropicraft:oreZircon.name=Zircon Ore
 tile.tropicraft:oreAzurite.name=Azurite Ore
-tile.tropicraft:oreBlock_blockOreAzurite.name=Azurite Block
-tile.tropicraft:oreBlock_blockOreEudialyte.name=Eudialyte Block
-tile.tropicraft:oreBlock_blockOreZircon.name=Zircon Block
+tile.tropicraft:oreblock_azurite.name=Azurite Block
+tile.tropicraft:oreblock_eudialyte.name=Eudialyte Block
+tile.tropicraft:oreblock_zircon.name=Zircon Block
+tile.tropicraft:flower_commelina_diffusa.name=Commelina Diffusa
+tile.tropicraft:flower_crocosmia.name=Crocosmia
+tile.tropicraft:flower_orchid.name=Orchid
+tile.tropicraft:flower_canna.name=Canna
+tile.tropicraft:flower_anemone.name=Anemone
+tile.tropicraft:flower_orange_anthurium.name=Orange Anthurium
+tile.tropicraft:flower_red_anthurium.name=Red Anthurium
+tile.tropicraft:flower_magic_mushroom.name=Magic Mushroom
+tile.tropicraft:flower_pathos.name=Pathos
+tile.tropicraft:flower_acai_vine.name=Acai Vine
+tile.tropicraft:flower_croton.name=Croton
+tile.tropicraft:flower_dracaena.name=Dracaena
+tile.tropicraft:flower_fern.name=Fern
+tile.tropicraft:flower_foilage.name=Foilage
+tile.tropicraft:flower_bromeliad.name=Bromeliad
 
 # Item localizations
 item.tropicraft:eudialyte.name=Eudialyte Shard

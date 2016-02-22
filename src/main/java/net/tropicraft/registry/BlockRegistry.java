@@ -37,6 +37,8 @@ public class BlockRegistry extends TropicraftRegistry {
 	public static Block flowers;
     public static final String[] flowerNames = {"commelina_diffusa", "crocosmia", "orchid", "canna", "anemone", "orange_anthurium", "red_anthurium", "magic_mushroom", "pathos", "acai_vine",
         "croton", "dracaena", "fern", "foilage", "bromeliad"};
+    
+    public static final String[] blockOreNames = {"azurite", "eudialyte", "zircon"};
 	
 	/**
 	 * Register blocks in preInit
@@ -47,7 +49,7 @@ public class BlockRegistry extends TropicraftRegistry {
 		oreAzurite = registerBlock(new BlockTropicraftOre(), "oreAzurite");
 		oreEudialyte = registerBlock(new BlockTropicraftOre(), "oreEudialyte");
 		oreZircon = registerBlock(new BlockTropicraftOre(), "oreZircon");
-		oreBlock = registerMultiBlock(new BlockTropicraftOreBlock(), "oreBlock", new String[]{"blockOreAzurite", "blockOreEudialyte", "blockOreZircon"});
+		oreBlock = registerMultiBlock(new BlockTropicraftOreBlock(blockOreNames), "oreblock", blockOreNames);
 		flowers = registerMultiBlock(new BlockTropicsFlowers(flowerNames), "flower", flowerNames);
 	}
 	
@@ -125,9 +127,15 @@ public class BlockRegistry extends TropicraftRegistry {
         Tropicraft.proxy.registerItemVariantModel(item, stateName, stateMeta);
     }
 	
+	/**
+	 * Built especially for registering blocks with multiple variants
+	 * @param block
+	 * @param registryName
+	 * @param stateMeta
+	 * @param variantName
+	 */
 	public static void registerBlockVariant(Block block, String registryName, int stateMeta, String variantName) {
         Item item = Item.getItemFromBlock(block);
-        System.err.println("Registering " + registryName + " and " + variantName);
         Tropicraft.proxy.registerItemVariantModel(item, registryName, stateMeta, variantName);
     }
 	
