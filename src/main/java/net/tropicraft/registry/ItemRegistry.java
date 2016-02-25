@@ -2,11 +2,15 @@ package net.tropicraft.registry;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.item.ItemHoe;
+import net.minecraft.item.ItemSpade;
+import net.minecraft.item.ItemSword;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.tropicraft.Tropicraft;
+import net.tropicraft.item.ItemTropicraftAxe;
 import net.tropicraft.item.ItemTropicraftFood;
-import net.tropicraft.item.ItemTropicraftHoe;
+import net.tropicraft.item.ItemTropicraftPickaxe;
 import net.tropicraft.item.ItemTropicsOre;
 
 public class ItemRegistry extends TropicraftRegistry {
@@ -24,6 +28,14 @@ public class ItemRegistry extends TropicraftRegistry {
 	// Tools
     public static Item hoeEudialyte;
     public static Item hoeZircon;
+    public static Item pickaxeEudialyte;
+    public static Item pickaxeZircon;
+    public static Item shovelEudialyte;
+    public static Item shovelZircon;
+    public static Item axeEudialyte;
+    public static Item axeZircon;
+    public static Item swordEudialyte;
+    public static Item swordZircon;
 
 	/**
 	 * Register items in preInit
@@ -38,8 +50,16 @@ public class ItemRegistry extends TropicraftRegistry {
 		lime = registerItem(new ItemTropicraftFood(2, 0.2F), "lime");
 		orange = registerItem(new ItemTropicraftFood(2, 0.2F), "orange");
 		
-		hoeEudialyte = registerItem(new ItemTropicraftHoe(materialEudialyteTools), "hoe_eudialyte");
-		hoeZircon = registerItem(new ItemTropicraftHoe(materialZirconTools), "hoe_zircon");
+		hoeEudialyte = registerItem(new ItemHoe(materialEudialyteTools), "hoe_eudialyte");
+		hoeZircon = registerItem(new ItemHoe(materialZirconTools), "hoe_zircon");
+		pickaxeEudialyte = registerItem(new ItemTropicraftPickaxe(materialEudialyteTools), "pickaxe_eudialyte");
+		pickaxeZircon = registerItem(new ItemTropicraftPickaxe(materialZirconTools), "pickaxe_zircon");
+		shovelEudialyte = registerItem(new ItemSpade(materialEudialyteTools), "shovel_eudialyte");
+		shovelZircon = registerItem(new ItemSpade(materialZirconTools), "shovel_zircon");
+		axeEudialyte = registerItem(new ItemTropicraftAxe(materialEudialyteTools), "axe_eudialyte");
+		axeZircon = registerItem(new ItemTropicraftAxe(materialZirconTools), "axe_zircon");
+		swordEudialyte = registerItem(new ItemSword(materialEudialyteTools), "sword_eudialyte");
+		swordZircon = registerItem(new ItemSword(materialZirconTools), "sword_zircon");
 	}
 	
 	private static Item registerItem(Item item, String name) {
