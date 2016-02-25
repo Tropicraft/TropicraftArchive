@@ -22,6 +22,8 @@ tile.tropicraft:flower_dracaena.name=Dracaena
 tile.tropicraft:flower_fern.name=Fern
 tile.tropicraft:flower_foilage.name=Foilage
 tile.tropicraft:flower_bromeliad.name=Bromeliad
+tile.tropicraft:log_mahogany.name=Mahogany Log
+tile.tropicraft:log_palm.name=Palm Log
 
 # Item localizations
 item.tropicraft:eudialyte.name=Eudialyte Shard

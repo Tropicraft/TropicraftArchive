@@ -8,13 +8,13 @@ import java.util.Stack;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.tropicraft.Names;
 import net.tropicraft.Tropicraft;
 import net.tropicraft.block.BlockChunkOHead;
+import net.tropicraft.block.BlockTropicraftLog;
 import net.tropicraft.block.BlockTropicraftOre;
 import net.tropicraft.block.BlockTropicraftOreBlock;
 import net.tropicraft.block.BlockTropicraftStairs;
@@ -35,10 +35,9 @@ public class BlockRegistry extends TropicraftRegistry {
 	public static Block oreBlock;
 	
 	public static Block flowers;
-    public static final String[] flowerNames = {"commelina_diffusa", "crocosmia", "orchid", "canna", "anemone", "orange_anthurium", "red_anthurium", "magic_mushroom", "pathos", "acai_vine",
-        "croton", "dracaena", "fern", "foilage", "bromeliad"};
-    
-    public static final String[] blockOreNames = {"azurite", "eudialyte", "zircon"};
+	public static Block logs;
+	
+	// TODO Shane wants Taro https://en.wikipedia.org/wiki/Taro
 	
 	/**
 	 * Register blocks in preInit
@@ -49,8 +48,9 @@ public class BlockRegistry extends TropicraftRegistry {
 		oreAzurite = registerBlock(new BlockTropicraftOre(), "oreAzurite");
 		oreEudialyte = registerBlock(new BlockTropicraftOre(), "oreEudialyte");
 		oreZircon = registerBlock(new BlockTropicraftOre(), "oreZircon");
-		oreBlock = registerMultiBlock(new BlockTropicraftOreBlock(blockOreNames), "oreblock", blockOreNames);
-		flowers = registerMultiBlock(new BlockTropicsFlowers(flowerNames), "flower", flowerNames);
+		oreBlock = registerMultiBlock(new BlockTropicraftOreBlock(Names.BLOCK_ORE_NAMES), "oreblock", Names.BLOCK_ORE_NAMES);
+		flowers = registerMultiBlock(new BlockTropicsFlowers(Names.FLOWER_NAMES), "flower", Names.FLOWER_NAMES);
+		logs = registerMultiBlock(new BlockTropicraftLog(Names.LOG_NAMES), "log", Names.LOG_NAMES);
 	}
 	
 	private static Block registerBlock(Block block, String name) {
@@ -65,9 +65,9 @@ public class BlockRegistry extends TropicraftRegistry {
 	 */
 	private static Block registerBlock(Block block, String name, boolean hasVariants) {
 		block.setUnlocalizedName(getNamePrefixed(name));
-		block.setCreativeTab(CreativeTabs.tabBlock);
 		
 		GameRegistry.registerBlock(block, ItemBlock.class, name);
+		block.setCreativeTab(CreativeTabRegistry.tropicraftTab);
 		
 		if (hasVariants) {
 			int count = 0;
@@ -112,11 +112,12 @@ public class BlockRegistry extends TropicraftRegistry {
             {
                 String stateName = tcBlock.getStateName(state);
                 int stateMeta = block.getMetaFromState(state);
-                registerBlockVariant(block, name, stateMeta, "variant=" + stateName);
+                System.err.println("Registering " + name + " with stateName " + stateName + " and meta " + stateMeta);
+                registerBlockVariant(block, name, stateMeta, stateName);
             }
         }
 
-        block.setCreativeTab(CreativeTabs.tabBlock);
+        block.setCreativeTab(CreativeTabRegistry.tropicraftTab);
         
         return block;
 	}

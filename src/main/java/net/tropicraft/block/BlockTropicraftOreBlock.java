@@ -25,6 +25,7 @@ public class BlockTropicraftOreBlock extends BlockTropicraft implements ITropicr
     	return new BlockState(this, new IProperty[] { VARIANT });
     }
     
+    @Override
     public String getStateName(IBlockState state) {
         return ((TropicraftOres) state.getValue(VARIANT)).getName();
     }

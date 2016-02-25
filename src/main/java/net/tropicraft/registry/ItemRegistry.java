@@ -66,6 +66,7 @@ public class ItemRegistry extends TropicraftRegistry {
 		item.setUnlocalizedName(getNamePrefixed(name));
 		
 		GameRegistry.registerItem(item, name);
+		item.setCreativeTab(CreativeTabRegistry.tropicraftTab);
 		Tropicraft.proxy.registerItemVariantModel(item, name, 0);
 		
 		return item;
