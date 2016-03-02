@@ -38,8 +38,8 @@ public class ClientProxy extends CommonProxy
     }
     
     public void registerItemRender(Item item, int meta, String unlocalizedName) {
-    	ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(Tropicraft.modID + ":" + unlocalizedName, "inventory"));
-    	//Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, meta, new ModelResourceLocation(Tropicraft.modID + ":" + unlocalizedName, "inventory"));
+    	//ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(Tropicraft.modID + ":" + unlocalizedName, "inventory"));
+    	Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, meta, new ModelResourceLocation(Tropicraft.modID + ":" + unlocalizedName, "inventory"));
     }
     
     public void registerItemRender(Item item, int meta, String unlocalizedName, String location) {
@@ -58,11 +58,9 @@ public class ClientProxy extends CommonProxy
     @Override
     public void registerItemVariantModel(Item item, String registryName, int metadata, String variantName) {
         if (item != null) {
-        	ModelResourceLocation mrl = new ModelResourceLocation(Info.MODID + ":" + registryName, variantName);
-        	System.err.println(">>>");
-        	System.err.println(mrl);
-        	System.err.println("<<<");
-            ModelLoader.setCustomModelResourceLocation(item, metadata, mrl);
+            // ModelResourceLocation mrl = new ModelResourceLocation(Info.MODID + ":" + registryName, variantName);
+            // ModelLoader.setCustomModelResourceLocation(item, metadata, mrl);
+            ModelLoader.setCustomModelResourceLocation(item, metadata, new ModelResourceLocation(Info.MODID + ":" + variantName, null));
         }
     }
 }

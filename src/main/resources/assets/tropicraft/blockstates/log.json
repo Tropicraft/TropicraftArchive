@@ -7,6 +7,6 @@
         "axis=y,variant=palm_log": { "model": "tropicraft:palm_log" },
         "axis=z,variant=palm_log": { "model": "tropicraft:palm_log_side" },
         "axis=x,variant=palm_log": { "model": "tropicraft:palm_log_side", "y": 90 },
-        "axis=none,variant=palm_log": { "model": "tropicraft:palm_bark" },
+        "axis=none,variant=palm_log": { "model": "tropicraft:palm_bark" }
     }
 }

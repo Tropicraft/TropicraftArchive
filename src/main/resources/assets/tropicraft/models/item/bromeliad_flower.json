@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "tropicraft:blocks/flower_commelina_diffusa"
+        "layer0": "tropicraft:blocks/flower_bromeliad"
     },
     "display": {
         "thirdperson": {

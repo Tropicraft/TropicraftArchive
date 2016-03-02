@@ -8,6 +8,8 @@ import java.util.Stack;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -42,7 +44,7 @@ public class BlockRegistry extends TropicraftRegistry {
 	/**
 	 * Register blocks in preInit
 	 */
-	public static void init() {
+	public static void preInit() {
 		chunk = registerBlock(new BlockChunkOHead(), Names.BLOCK_CHUNK_O_HEAD);
 		chunkStairs = registerBlock(new BlockTropicraftStairs(chunk.getDefaultState()), Names.BLOCK_CHUNK_O_HEAD_STAIRS);
 		oreAzurite = registerBlock(new BlockTropicraftOre(), "oreAzurite");
@@ -51,6 +53,10 @@ public class BlockRegistry extends TropicraftRegistry {
 		oreBlock = registerMultiBlock(new BlockTropicraftOreBlock(Names.BLOCK_ORE_NAMES), "oreblock", Names.BLOCK_ORE_NAMES);
 		flowers = registerMultiBlock(new BlockTropicsFlowers(Names.FLOWER_NAMES), "flower", Names.FLOWER_NAMES);
 		logs = registerMultiBlock(new BlockTropicraftLog(Names.LOG_NAMES), "log", Names.LOG_NAMES);
+	}
+	
+	public static void init() {
+
 	}
 	
 	private static Block registerBlock(Block block, String name) {

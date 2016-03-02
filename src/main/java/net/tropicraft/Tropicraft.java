@@ -24,13 +24,13 @@ public class Tropicraft {
 	
 	@Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-		BlockRegistry.init();
+		BlockRegistry.preInit();
 		ItemRegistry.init();
     }
     
 	@Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-		proxy.init();
+		BlockRegistry.init();
     }
     
     @Mod.EventHandler
