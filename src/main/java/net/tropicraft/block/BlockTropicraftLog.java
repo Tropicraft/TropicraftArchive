@@ -43,12 +43,11 @@ public class BlockTropicraftLog extends BlockLog implements ITropicraftBlock {
     /**
      * Convert the given metadata into a BlockState for this Block
      */
-    public IBlockState getStateFromMeta(int meta)
-    {
-        IBlockState iblockstate = this.getDefaultState().withProperty(VARIANT, TropicraftLogs.byMetadata((meta & 3) % 4));
+    @Override
+    public IBlockState getStateFromMeta(int meta) {
+        IBlockState iblockstate = this.getDefaultState().withProperty(VARIANT, TropicraftLogs.byMetadata((meta & 3)));
 
-        switch (meta & 12)
-        {
+        switch (meta & 12) {
             case 0:
                 iblockstate = iblockstate.withProperty(LOG_AXIS, BlockLog.EnumAxis.Y);
                 break;
@@ -61,6 +60,8 @@ public class BlockTropicraftLog extends BlockLog implements ITropicraftBlock {
             default:
                 iblockstate = iblockstate.withProperty(LOG_AXIS, BlockLog.EnumAxis.NONE);
         }
+        
+        System.err.println("GetStatFromMeta: " + meta + " " + iblockstate);
 
         return iblockstate;
     }
@@ -69,6 +70,7 @@ public class BlockTropicraftLog extends BlockLog implements ITropicraftBlock {
     /**
      * Convert the BlockState into the correct metadata value
      */
+    @Override
     public int getMetaFromState(IBlockState state) {
         int i = 0;
         i = i | ((TropicraftLogs)state.getValue(VARIANT)).getMetadata();
@@ -85,6 +87,8 @@ public class BlockTropicraftLog extends BlockLog implements ITropicraftBlock {
             default:
             	break;
         }
+        
+        System.err.println("GetMetaFromState:" + i);
 
         return i;
     }
