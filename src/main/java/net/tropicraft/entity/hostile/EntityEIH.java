@@ -3,6 +3,9 @@ package net.tropicraft.entity.hostile;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIAttackOnCollide;
+import net.minecraft.entity.ai.EntityAILeapAtTarget;
+import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -31,6 +34,9 @@ public class EntityEIH extends EntityLand implements IMob {
         this.isImmuneToFire = true;
         setSize(1.4F, 4.0F);
         this.experienceValue = 10;
+        
+        this.tasks.addTask(3, new EntityAILeapAtTarget(this, 0.4F));
+        this.tasks.addTask(4, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1D, false));
     }
 
     @Override

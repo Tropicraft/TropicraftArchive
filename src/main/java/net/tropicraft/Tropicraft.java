@@ -10,6 +10,7 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
 import net.tropicraft.proxy.CommonProxy;
 import net.tropicraft.registry.BlockRegistry;
+import net.tropicraft.registry.EntityRegistry;
 import net.tropicraft.registry.ItemRegistry;
 
 @Mod(modid = Info.MODID, name=Info.NAME, version=Info.VERSION)
@@ -31,6 +32,7 @@ public class Tropicraft {
 	@Mod.EventHandler
     public void init(FMLInitializationEvent event) {
 		BlockRegistry.init();
+		EntityRegistry.init();
     }
     
     @Mod.EventHandler
