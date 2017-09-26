@@ -8,7 +8,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.ChunkProviderSettings;
 import net.tropicraft.configuration.ConfigGenRates;
 import net.tropicraft.core.common.biome.BiomeGenTropicraft;
-import net.tropicraft.core.common.worldgen.WorldGenHomeTree;
+import net.tropicraft.core.common.worldgen.MapGenHomeTree;
 import net.tropicraft.core.common.worldgen.WorldGenTallTree;
 import net.tropicraft.core.common.worldgen.WorldGenTualang;
 import net.tropicraft.core.common.worldgen.WorldGenUndergrowth;
@@ -23,7 +23,6 @@ public class BiomeDecoratorRainforest extends BiomeDecoratorTropicraft {
 	private static final int UNDERGROWTH_AMOUNT = 15;
 	private static final int SMALL_TUALANG_AMOUNT = 4;
 	private static final int LARGE_TUALANG_AMOUNT = 2;
-	private static final int HOME_TREE_RARITY = 80;
 
 	public BiomeDecoratorRainforest() {
 
@@ -54,14 +53,6 @@ public class BiomeDecoratorRainforest extends BiomeDecoratorTropicraft {
 			return;
 		}
 
-		if(rand.nextInt(HOME_TREE_RARITY) == 0) {
-			int cx = x/* * 16*/;
-			//	System.out.println("Trying!!!");
-			int cz = z/* * 16*/;
-			int xx = rand.nextInt(16) + cx + 8;
-			int zz= rand.nextInt(16) + cz + 8;
-			new WorldGenHomeTree(world, rand).generate(new BlockPos(xx, 0, zz));
-		}
 		//
 		//		if(rand.nextInt(ALTAR_CHANCE) == 0) {
 		//			new WorldGenForestAltarRuin(world, rand).generate(randCoord(rand, x, 16), 0, randCoord(rand, x, 16));

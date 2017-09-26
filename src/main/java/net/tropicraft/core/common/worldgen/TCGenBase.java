@@ -29,7 +29,7 @@ public abstract class TCGenBase extends WorldGenerator {
 	public static final int MAX_CHUNK_HEIGHT = 256;
 	
 	/**Blocks normally checked in the check methods*/
-	protected List<Block> standardAllowedBlocks = Arrays.asList(Blocks.AIR, Blocks.LEAVES, Blocks.TALLGRASS, Blocks.SNOW_LAYER, Blocks.SNOW);
+	public static final List<Block> STANDARD_ALLOWED_BLOCKS = Arrays.asList(Blocks.AIR, Blocks.LEAVES, Blocks.TALLGRASS, Blocks.SNOW_LAYER, Blocks.SNOW);
 	
 	/** Default flag for the blockGenNotifyFlag below */
 	public static final int BLOCK_GEN_NOTIFY_FLAG_DEFAULT = 2;
@@ -132,7 +132,7 @@ public abstract class TCGenBase extends WorldGenerator {
 	 * @param allowedBlockList The block to exclude from the check
 	 * @return Whether any blocks not specified in allowedBlockList exist in that circle
 	 */
-	public boolean checkBlockLine(int ai[], int ai1[], List<Block> allowedBlockList)
+	public static boolean checkBlockLine(World worldObj, int ai[], int ai1[], List<Block> allowedBlockList)
     {
         int ai2[] = {
             0, 0, 0

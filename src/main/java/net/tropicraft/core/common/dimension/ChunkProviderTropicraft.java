@@ -20,6 +20,7 @@ import net.minecraft.world.chunk.IChunkGenerator;
 import net.minecraft.world.gen.NoiseGeneratorOctaves;
 import net.minecraft.world.gen.NoiseGeneratorPerlin;
 import net.tropicraft.core.common.biome.BiomeGenTropicraft;
+import net.tropicraft.core.common.worldgen.MapGenHomeTree;
 import net.tropicraft.core.common.worldgen.mapgen.MapGenVolcano;
 import net.tropicraft.core.registry.BlockRegistry;
 
@@ -46,6 +47,7 @@ public class ChunkProviderTropicraft implements IChunkGenerator { //NOTE: THIS W
 	private NoiseGeneratorOctaves noiseGen5;
 
 	private MapGenVolcano volcanoGen;
+	private MapGenHomeTree homeTreeGen;
 
 	public ChunkProviderTropicraft(World world, long seed, boolean mapFeaturesEnabled) {
 		this.worldObj = world;
@@ -60,6 +62,7 @@ public class ChunkProviderTropicraft implements IChunkGenerator { //NOTE: THIS W
 		this.noiseGen5 = new NoiseGeneratorOctaves(this.rand, 16);
 
 		volcanoGen = new MapGenVolcano(worldObj, true);
+		homeTreeGen = new MapGenHomeTree();
 	}
 	
 	private boolean hasSpawned = false;
@@ -79,6 +82,8 @@ public class ChunkProviderTropicraft implements IChunkGenerator { //NOTE: THIS W
 		ChunkPos chunkpos = new ChunkPos(i, j);
 
 		biome.decorate(worldObj, rand, blockpos);
+		
+		homeTreeGen.applyActions(worldObj, x, z);
 
 		if (!hasSpawned) {
 			BlockPos volcanoCoords = volcanoGen.getVolcanoNear(worldObj, x, z);
@@ -129,6 +134,7 @@ public class ChunkProviderTropicraft implements IChunkGenerator { //NOTE: THIS W
 		this.replaceBiomeBlocks(x, z, chunkprimer, this.biomesForGeneration);
 
 		this.volcanoGen.generate(x, z, chunkprimer);
+		this.homeTreeGen.generate(worldObj, x, z, chunkprimer);
 
 		Chunk chunk = new Chunk(this.worldObj, chunkprimer, x, z);
 		byte[] abyte = chunk.getBiomeArray();
