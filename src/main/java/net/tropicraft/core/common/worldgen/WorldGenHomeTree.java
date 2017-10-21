@@ -312,6 +312,7 @@ public class WorldGenHomeTree extends TCGenBase {
 			if (!info.lookupChunkToGenCompleted.containsKey(chunkPosTest.hashCode())) {
 				if (!info.lookupChunkToGenRemaining.containsKey(chunkPosTest.hashCode())) {
 					info.lookupChunkToGenRemaining.put(chunkPosTest.hashCode(), true);
+					System.out.println("flagging chunk to gen: " + chunkX + " - " + chunkZ + " - size: " + info.lookupChunkToGenRemaining.size());
 				}
 			}
 

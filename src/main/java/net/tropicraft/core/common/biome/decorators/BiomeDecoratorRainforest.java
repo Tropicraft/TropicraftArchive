@@ -32,6 +32,7 @@ public class BiomeDecoratorRainforest extends BiomeDecoratorTropicraft {
 
     public static ConcurrentHashMap<Integer, HomeTreeInfo> lookupChunkToHomeTreeInfo = new ConcurrentHashMap<>();
 
+    //TODO: didnt account for chunks that are already generated when it adds to lookupChunkToGenRemaining list, big issue
     public class HomeTreeInfo {
 
         public long seed;
