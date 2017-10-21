@@ -17,6 +17,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.tropicraft.Info;
+import net.tropicraft.core.common.biome.decorators.BiomeDecoratorRainforest;
 import net.tropicraft.core.common.block.BlockTropicraftLeaves;
 import net.tropicraft.core.common.block.BlockTropicraftLog;
 import net.tropicraft.core.common.enums.TropicraftLeaves;
@@ -48,8 +49,13 @@ public class WorldGenHomeTree extends TCGenBase {
 	private ArrayList<BranchNode> branchList = new ArrayList<BranchNode>();
 	private int trunkRadius;
 
-	public WorldGenHomeTree(World world, Random random) {
+	public BlockPos chunkToGenIn = null;
+	public BiomeDecoratorRainforest.HomeTreeInfo info = null;
+
+	public WorldGenHomeTree(World world, Random random, BlockPos chunkToGenIn, BiomeDecoratorRainforest.HomeTreeInfo info) {
 		super(world, random);
+		this.chunkToGenIn = chunkToGenIn;
+		this.info = info;
 	}
 
 	@Override
@@ -80,6 +86,18 @@ public class WorldGenHomeTree extends TCGenBase {
 
 		if (height + j + 12 > 255) {
 			return false;
+		}
+
+		if (info.heightOverride1 == -1) {
+			info.heightOverride1 = height;
+		} else {
+			height = info.heightOverride1;
+		}
+
+		if (info.heightOverride2 == -1) {
+			info.heightOverride2 = j;
+		} else {
+			j = info.heightOverride2;
 		}
 
 		System.err.println("HOME TREE INCOMING!" + " " + i + " " + j + " " + k);
@@ -286,7 +304,22 @@ public class WorldGenHomeTree extends TCGenBase {
 		Block bID = getBlock(i, j, k);
 		if(force || bID == Blocks.WATER || bID == Blocks.FLOWING_WATER || bID == BlockRegistry.tropicsWater 
 				|| bID == Blocks.AIR) {
-			return setBlockState(i, j, k, state, 0);
+			int chunkX = i / 16;
+			int chunkZ = k / 16;
+			//untested if accurate to compare against chunkPos var
+			BlockPos chunkPosTest = new BlockPos(chunkX, 0, chunkZ);
+
+			if (!info.lookupChunkToGenCompleted.containsKey(chunkPosTest.hashCode())) {
+				if (!info.lookupChunkToGenRemaining.containsKey(chunkPosTest.hashCode())) {
+					info.lookupChunkToGenRemaining.put(chunkPosTest.hashCode(), true);
+				}
+			}
+
+			if (chunkPosTest.equals(chunkToGenIn)) {
+				return setBlockState(i, j, k, state, 0);
+			} else {
+				return false;
+			}
 		}
 		return false;
 	}

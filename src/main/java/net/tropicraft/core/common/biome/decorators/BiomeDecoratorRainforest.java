@@ -1,6 +1,11 @@
 package net.tropicraft.core.common.biome.decorators;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Random;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -25,6 +30,32 @@ public class BiomeDecoratorRainforest extends BiomeDecoratorTropicraft {
     private static final int LARGE_TUALANG_AMOUNT = 2;
     private static final int HOME_TREE_RARITY = 240;
 
+    public static ConcurrentHashMap<Integer, HomeTreeInfo> lookupChunkToHomeTreeInfo = new ConcurrentHashMap<>();
+
+    public class HomeTreeInfo {
+
+        public long seed;
+        public BlockPos pos;
+        public int heightOverride1 = -1;
+        public int heightOverride2 = -1;
+        //public boolean hasRun = false;
+
+        public HashMap<Integer, Boolean> lookupChunkToGenRemaining = new HashMap<>();
+        public HashMap<Integer, Boolean> lookupChunkToGenCompleted = new HashMap<>();
+
+        public HomeTreeInfo(long seed, BlockPos pos) {
+            this.seed = seed;
+            this.pos = pos;
+            BlockPos chunkPosActual = new BlockPos(pos.getX() / 16, 0, pos.getZ() / 16);
+            int hashCode = chunkPosActual.hashCode();
+            this.lookupChunkToGenRemaining.put(hashCode, true);
+        }
+
+        public boolean isDone() {
+            return /*hasRun && */lookupChunkToGenRemaining.size() == 0;
+        }
+    }
+
     public BiomeDecoratorRainforest() {
 
     }
@@ -48,6 +79,8 @@ public class BiomeDecoratorRainforest extends BiomeDecoratorTropicraft {
         int x = chunkPos.getX();
         int z = chunkPos.getZ();
         int i = 0; int k = 0;
+        BlockPos chunkPosActual = new BlockPos(chunkPos.getX() / 16, 0, chunkPos.getZ() / 16);
+        int hashCode = chunkPosActual.hashCode();
 
         if (BiomeGenTropicraft.DISABLEDECORATION) {
             System.out.println("decoration disabled via BiomeGenTropics.DISABLEDECORATION, " + this);
@@ -57,9 +90,41 @@ public class BiomeDecoratorRainforest extends BiomeDecoratorTropicraft {
         if(rand.nextInt(HOME_TREE_RARITY) == 0) {
             int cx = x;
             int cz = z;
-            int xx = rand.nextInt(16) + cx + 8;
-            int zz= rand.nextInt(16) + cz + 8;
-            new WorldGenHomeTree(world, rand).generate(new BlockPos(xx, 0, zz));
+            //center of current chunk
+            int xx = /*rand.nextInt(16) + */cx/* + 8*/;
+            int zz = /*rand.nextInt(16) + */cz/* + 8*/;
+            //new WorldGenHomeTree(world, rand).generate(new BlockPos(xx, 0, zz));
+            System.out.println("adding home tree position: " + xx + " - " + zz);
+            lookupChunkToHomeTreeInfo.put(hashCode, new HomeTreeInfo(SeedGetter.getSeed(rand), new BlockPos(xx, 0, zz)));
+        }
+
+        Iterator<Map.Entry<Integer, HomeTreeInfo>> it  = lookupChunkToHomeTreeInfo.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<Integer, HomeTreeInfo> treeE = it.next();
+            HomeTreeInfo tree = treeE.getValue();
+            if (tree.isDone()) {
+                System.out.println(tree + " - tree done, remove from list");
+                it.remove();
+            } else {
+                //tree.hasRun = true;
+
+                if (tree.lookupChunkToGenRemaining.containsKey(hashCode)) {
+                    //redundant check?
+                    if (!tree.lookupChunkToGenCompleted.containsKey(hashCode)) {
+
+                        Random randState = new Random();
+                        randState.setSeed(tree.seed);
+                        System.out.println(tree + " - gen tree for chunk: " + chunkPosActual.getX() + " - " + chunkPosActual.getZ());
+                        new WorldGenHomeTree(world, randState, chunkPosActual, tree).generate(tree.pos);
+
+                        tree.lookupChunkToGenCompleted.put(hashCode, true);
+                        tree.lookupChunkToGenRemaining.remove(hashCode);
+                    } else {
+
+                    }
+                }
+
+            }
         }
 
 //        if(rand.nextInt(ALTAR_CHANCE) == 0) {
