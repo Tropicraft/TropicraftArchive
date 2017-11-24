@@ -28,6 +28,7 @@ import net.tropicraft.core.common.worldgen.mapgen.MapGenTropicsCaves;
 import net.tropicraft.core.common.worldgen.mapgen.MapGenUndergroundGrove;
 import net.tropicraft.core.common.worldgen.mapgen.MapGenUndergroundWaterCove;
 import net.tropicraft.core.common.worldgen.mapgen.MapGenVolcano;
+import net.tropicraft.core.common.worldgen.multi.StructureMaster;
 import net.tropicraft.core.registry.BlockRegistry;
 
 public class ChunkProviderTropicraft implements IChunkGenerator { //NOTE: THIS WILL MOST LIKELY BE COMPLETELY REDONE
@@ -103,6 +104,7 @@ public class ChunkProviderTropicraft implements IChunkGenerator { //NOTE: THIS W
 
     @Override
     public boolean generateStructures(Chunk chunkIn, int x, int z) {
+        StructureMaster.onChunkGeneration(chunkIn);
         return false;
     }
 
