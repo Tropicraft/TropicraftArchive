@@ -108,13 +108,13 @@ public class StructureMaster {
         
         // Find all currently in-progress structures within range of the newly loaded chunk
         Iterator<Structure> it2 = getStructuresInRange(chunk).iterator();
-        
+
         while (it2.hasNext()) {
             Structure structure = it2.next();
             Long2ObjectMap<Chunk> startChunks = structure.findValidStarterChunks(chunk);
             for (Chunk startChunk : startChunks.values()) {
                 boolean couldAdd = structure.addCandidate(startChunk, chunk);
-                
+
                 if (couldAdd) {
                     if (structure.isComplete(startChunk)) {
                         boolean didGenerate = structure.generate(startChunk, StructureBase.TEMP_DIR);

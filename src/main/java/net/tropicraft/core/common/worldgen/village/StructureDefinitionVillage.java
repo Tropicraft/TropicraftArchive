@@ -39,14 +39,15 @@ public class StructureDefinitionVillage extends StructureDefinition {
         starterChunkConditions.add(VillagePredicates.BEACH_BIOME);
         
         //looks like villages are 4.75 chunks long and 5.375 chunks wide
-        for (int z = -3; z < 4; z++) {
+        int z = 0;
+        //for (int z = -2; z < 3; z++) {
             this.addCandidate(new ChunkOffset(1, z), VillagePredicates.OCEAN_BIOME);
-            this.addCandidate(new ChunkOffset(2, z), VillagePredicates.OCEAN_BIOME);
-            this.addCandidate(new ChunkOffset(3, z), VillagePredicates.OCEAN_BIOME);
-            this.addCandidate(new ChunkOffset(4, z), VillagePredicates.OCEAN_BIOME);
-            this.addCandidate(new ChunkOffset(5, z), VillagePredicates.OCEAN_BIOME);
-            this.addCandidate(new ChunkOffset(6, z), VillagePredicates.OCEAN_BIOME);
-        }
+//            this.addCandidate(new ChunkOffset(2, z), VillagePredicates.OCEAN_BIOME);
+//            this.addCandidate(new ChunkOffset(3, z), VillagePredicates.OCEAN_BIOME);
+//            this.addCandidate(new ChunkOffset(4, z), VillagePredicates.OCEAN_BIOME);
+//            this.addCandidate(new ChunkOffset(5, z), VillagePredicates.OCEAN_BIOME);
+            //this.addCandidate(new ChunkOffset(6, z), VillagePredicates.OCEAN_BIOME);
+      //  }
     }
 
     @Override

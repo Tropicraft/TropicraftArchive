@@ -33,7 +33,26 @@ public class StructureBase implements Structure {
         starterCandidates = new Long2ObjectOpenHashMap<Chunk>();
     }
 
-    public boolean addCandidate(Chunk starterCandidate, Chunk pieceCandidate) {       
+    public boolean addCandidate(Chunk starterCandidate, Chunk pieceCandidate) {
+        
+        // TODO - only addCandidate if pieceCandidate is a valid piece
+        
+        Set<ChunkOffset> defOffsets = definition.getChunkOffsets();
+        ChunkPos startPos = starterCandidate.getPos();
+        
+        boolean isValidCandidate = false;
+
+        for (ChunkOffset offset : defOffsets) {
+            ChunkPos offsetPos = offset.getPosOffset(startPos);
+            if (offsetPos.equals(pieceCandidate.getPos())) {
+                isValidCandidate = true;
+            }
+        }
+        
+        // If piece is not a valid candidate, get outta here
+        if (!isValidCandidate)
+            return false;
+        
         if (starter2CandidatesMap.containsKey(starterCandidate.getPos())) {
             Map<EnumFacing, Long2ObjectMap<Chunk>> dirChunks = starter2CandidatesMap.get(starterCandidate.getPos());
             Long2ObjectMap<Chunk> chunks = dirChunks.get(TEMP_DIR);
@@ -47,7 +66,7 @@ public class StructureBase implements Structure {
             map1.put(TEMP_DIR, chunks);
             starter2CandidatesMap.put(starterCandidate.getPos(), map1);
             //starterCandidates.put(Long.valueOf(ChunkPos.asLong(starterCandidate.x, starterCandidate.z)), starterCandidate);
-            return false;
+            return true;
         }
     }
 
@@ -58,20 +77,30 @@ public class StructureBase implements Structure {
         Set<ChunkOffset> defOffsets = definition.getChunkOffsets();
         ChunkPos startPos = startChunk.getPos();
         
-        int chunksMatched = 0;
-        
-        for (Chunk c : chunks.values()) {
-            ChunkPos pos = c.getPos();
-            for (ChunkOffset offset : defOffsets) {
-                ChunkPos offsetPos = offset.getPosOffset(startPos);
-                if (offsetPos.equals(pos)) {
-                    chunksMatched++;
-                    break;
-                }
-            }
-        }
-        
-        return chunksMatched == chunks.size();
+        // In theory if we have the same number of offsets registered as the number of chunks found, then
+        // all have been found, assuming all chunks found are valid candidates
+        return defOffsets.size() == chunks.size();
+//        
+//        int chunksMatched = 0;
+//        
+//        for (Chunk c : chunks.values()) {
+//            ChunkPos pos = c.getPos();
+//            for (ChunkOffset offset : defOffsets) {
+//                ChunkPos offsetPos = offset.getPosOffset(startPos);
+//                if (offsetPos.equals(pos)) {
+//                    chunksMatched++;
+//                    break;
+//                }
+//            }
+//        }
+//        
+//        if (chunksMatched == defOffsets.size()) {
+//            System.out.println(chunksMatched);
+//            System.out.println(defOffsets.size());
+//            System.out.println(chunks.values().size());
+//        }
+//        
+//        return chunksMatched == defOffsets.size();
     }
     
     public Long2ObjectMap<Chunk> findValidStarterChunks(Chunk pieceCandidate) {
