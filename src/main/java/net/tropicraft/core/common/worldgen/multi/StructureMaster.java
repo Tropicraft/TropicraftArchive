@@ -1,12 +1,19 @@
 package net.tropicraft.core.common.worldgen.multi;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+@Mod.EventBusSubscriber
 public class StructureMaster {
     /**
      * Collection of active {@code StructureDefinition} objects to be checked against
@@ -15,25 +22,55 @@ public class StructureMaster {
      */
     private static Map<String, StructureDefinition> structureDefinitions = new LinkedHashMap<String, StructureDefinition>(4);
 
+    private static Map<ChunkPos, List<Structure>> structures = new LinkedHashMap<>();
+    
     public static boolean registerStructureDefinition(String name, StructureDefinition definition) {
         if (structureDefinitions.containsKey(name)) {
             System.err.println("Structure Definition already registered with name " + name + "! Ignoring.");
             return false;
         } else {
             structureDefinitions.put(name, definition);
+            System.out.println("Registering structure definition with name " + name);
             return true;
         }
     }
 
-    public static void init() {
+    @SubscribeEvent
+    public static void init(WorldEvent.Load event) {
         for (StructureDefinition def : structureDefinitions.values()) {
-            def.registerCandidatePositions();
+            def.registerCandidatePositions(event.getWorld());
         }
     }
 
-    private static Structure startNew(Chunk chunk) {
-        // TODO
-        return null;
+    private static Structure startNew(StructureDefinition definition, Chunk chunk) {
+        Structure structure = new StructureBase(definition);
+        
+        // If we already have a structure originating from this chunk, add it to the list
+        if (structures.containsKey(chunk.getPos())) {
+            // Check and see if this chunk already has a structure of the given definition
+            // originating from this chunk
+            if (!chunkContainsStructureOfType(chunk.getPos(), definition)) {
+                structures.get(chunk.getPos()).add(structure);
+                structure.addStarterCandidate(chunk);
+            }
+        } else { // Otherwise, create a new list for structures originating from this chunk
+            ArrayList<Structure> st = new ArrayList<Structure>();
+            st.add(structure);
+            structures.put(chunk.getPos(), st);
+            structure.addStarterCandidate(chunk);
+        }
+        return structure;
+    }
+    
+    private static boolean chunkContainsStructureOfType(ChunkPos pos, StructureDefinition def) {
+        List<Structure> structuresInChunk = structures.get(pos);
+        for (Structure structure : structuresInChunk) {
+            if (structure.getDefinition().equals(def)) {
+                return true;
+            }
+        }
+        
+        return false;
     }
 
     /**
@@ -43,8 +80,19 @@ public class StructureMaster {
      * @return List of structures within range
      */
     public static List<Structure> getStructuresInRange(Chunk chunk) {
-        // TODO
-        return null;
+        int range = 2;
+        List<Structure> foundStructures = new ArrayList<Structure>();
+        ChunkPos pos = chunk.getPos();
+        for (int i = -range; i < range; i++) {
+            for (int j = -range; j < range; j++) {
+                ChunkPos pos2 = new ChunkPos(pos.x + i, pos.z + j);
+                if (structures.containsKey(pos2)) {
+                    foundStructures.addAll(structures.get(pos2));
+                }
+            }
+        }
+
+        return foundStructures;
     }
 
     public static void onChunkGeneration(Chunk chunk) {
@@ -54,15 +102,28 @@ public class StructureMaster {
             StructureDefinition def = it.next();
             
             if (def.isValidStarterChunk(chunk)) {
-                startNew(chunk);
+                startNew(def, chunk);
             }
         }
         
+        // Find all currently in-progress structures within range of the newly loaded chunk
         Iterator<Structure> it2 = getStructuresInRange(chunk).iterator();
         
         while (it2.hasNext()) {
             Structure structure = it2.next();
-            if (structure.canUse(chunk)) {
+            Long2ObjectMap<Chunk> startChunks = structure.findValidStarterChunks(chunk);
+            for (Chunk startChunk : startChunks.values()) {
+                boolean couldAdd = structure.addCandidate(startChunk, chunk);
+                
+                if (couldAdd) {
+                    if (structure.isComplete(startChunk)) {
+                        boolean didGenerate = structure.generate(startChunk, StructureBase.TEMP_DIR);
+                        if (didGenerate) {
+                            // In theory, remove the structure from being reconstructed
+                            structures.get(startChunk.getPos()).remove(structure);
+                        }
+                    }
+                }
                 
             }
         }

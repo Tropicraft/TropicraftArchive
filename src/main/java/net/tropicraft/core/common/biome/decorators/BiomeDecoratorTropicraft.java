@@ -42,8 +42,8 @@ public class BiomeDecoratorTropicraft extends BiomeDecorator {
 		    this.chunkProviderSettings = ChunkGeneratorSettings.Factory.jsonToFactory(worldIn.getWorldInfo().getGeneratorOptions()).build();
 			this.chunkPos = pos;
 			this.decorating = false;
-			this.initOreGen(biome, worldIn, random);
-            this.genDecorations(biome, worldIn, random);
+			//this.initOreGen(biome, worldIn, random);
+            //this.genDecorations(biome, worldIn, random);
 		}
 	}
 

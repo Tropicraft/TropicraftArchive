@@ -3,10 +3,12 @@ package net.tropicraft.core.common.worldgen.multi;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.common.base.Predicate;
 
-import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 
 /**
@@ -16,18 +18,22 @@ import net.minecraft.world.chunk.Chunk;
  */
 public abstract class StructureDefinition {
 
-    protected Map<ChunkPos, List<Predicate<Chunk>>> candidates = new HashMap<>();
+    protected Map<ChunkOffset, Predicate<Chunk>[]> candidates = new HashMap<>();
     
     public abstract List<Predicate<Chunk>> starterChunkConditions();
     
     /**
      * Register all candidate positions in this function. It will get called
-     * during initialization.
+     * during world initialization.
      */
-    public abstract void registerCandidatePositions();
+    public abstract void registerCandidatePositions(World world);
     
-    protected void addCandidate(ChunkPos pos, List<Predicate<Chunk>> predicates) {
-        candidates.put(pos, predicates);
+    protected void addCandidate(ChunkOffset offset, Predicate<Chunk>... predicates) {
+        candidates.put(offset, predicates);
+    }
+    
+    public Set<ChunkOffset> getChunkOffsets() {
+        return candidates.keySet();
     }
     
     /**
@@ -45,5 +51,7 @@ public abstract class StructureDefinition {
         
         return false;
     }
+    
+    public abstract boolean generate(Chunk startChunk, EnumFacing direction);
     
 }

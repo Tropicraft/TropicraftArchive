@@ -27,7 +27,7 @@ public class TownKoaVillageGenHelper {
     public static int areaWidth = 86; //X for rot 0
     public static int areaHeight = 16;
 
-    public static boolean debugVillageGen = false;
+    public static boolean debugVillageGen = true;
 
     /* Takes coords that are assumed to be a beach, scans to find the ocean side and checks if theres enough ocean space to gen */
     public static boolean hookTryGenVillage(BlockPos parCoords, World parWorld) {
@@ -70,6 +70,8 @@ public class TownKoaVillageGenHelper {
                 village.initFirstTime();
                 storage.addTickingLocation(village);
 
+                System.out.println("Genning village!");
+                System.out.println(centerCoords);
                 return true;
             } else {
                 //dbg("ERROR: cant get world capability???");
@@ -103,9 +105,9 @@ public class TownKoaVillageGenHelper {
         //- trying front left in 4 pieces, same for right
 
         if (isClear(parCoords, parWorld, 1, 0)) return 0;
-        if (isClear(parCoords, parWorld, 0, -1)) return 1;
-        if (isClear(parCoords, parWorld, -1, 0)) return 2;
-        if (isClear(parCoords, parWorld, 0, 1)) return 3;
+//        if (isClear(parCoords, parWorld, 0, -1)) return 1;
+//        if (isClear(parCoords, parWorld, -1, 0)) return 2;
+//        if (isClear(parCoords, parWorld, 0, 1)) return 3;
 
 
         return -1;

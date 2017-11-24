@@ -86,11 +86,11 @@ public class BiomeDecoratorTropicsOcean extends BiomeDecoratorTropicraft {
     public void genDecorations(Biome biome, World world, Random rand) {
     	super.genDecorations(biome, world, rand);
     	
-        coralGen.generate(world, rand, chunkPos);
-        coralReefGen.generate(world, rand, chunkPos);
-        seaweedGen.generate(world, rand, chunkPos);
-        manganeseGen.generate(world, rand, chunkPos);
-        shakaGen.generate(world, rand, chunkPos);
+        //coralGen.generate(world, rand, chunkPos);
+        //coralReefGen.generate(world, rand, chunkPos);
+        //seaweedGen.generate(world, rand, chunkPos);
+        //manganeseGen.generate(world, rand, chunkPos);
+        //shakaGen.generate(world, rand, chunkPos);
         //        if (rand.nextInt(5) == 0) {
         //            int x = randDecorationCoord(rand, chunkPos.getX(), 16) + 8;
         //            int z = randDecorationCoord(rand, chunkPos.getZ(), 16) + 8;

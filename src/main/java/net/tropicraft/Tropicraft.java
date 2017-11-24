@@ -34,12 +34,13 @@ import net.tropicraft.core.common.event.ScubaHandlerCommon;
 import net.tropicraft.core.common.event.SpawnEvents;
 import net.tropicraft.core.common.item.scuba.ScubaCapabilities;
 import net.tropicraft.core.common.network.TCPacketHandler;
+import net.tropicraft.core.common.worldgen.multi.StructureMaster;
 import net.tropicraft.core.common.worldgen.overworld.TCWorldGenerator;
+import net.tropicraft.core.common.worldgen.village.StructureDefinitionVillage;
 import net.tropicraft.core.encyclopedia.Encyclopedia;
 import net.tropicraft.core.proxy.CommonProxy;
 import net.tropicraft.core.registry.CommandRegistry;
 import net.tropicraft.core.registry.FluidRegistry;
-import net.tropicraft.core.registry.ItemRegistry;
 import net.tropicraft.core.registry.LootRegistry;
 import net.tropicraft.core.registry.SmeltingRegistry;
 import net.tropicraft.core.registry.SoundRegistry;
@@ -108,6 +109,7 @@ public class Tropicraft {
 	public void postInit(FMLPostInitializationEvent event) {
 		FluidRegistry.postInit();
 		LootRegistry.postInit();
+		StructureMaster.registerStructureDefinition("koa_village", new StructureDefinitionVillage());
 	}
 
 	/**

@@ -2,6 +2,8 @@ package net.tropicraft.core.common.worldgen.multi;
 
 import java.util.Collection;
 
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.chunk.Chunk;
 
 public interface Structure {
@@ -36,4 +38,38 @@ public interface Structure {
      * @return Whether this chunk fits into the candidates of this structure's starter candidates
      */
     public boolean canUse(Chunk chunk);
+    
+    public Long2ObjectMap<Chunk> findValidStarterChunks(Chunk pieceCandidate);
+    
+    public boolean addCandidate(Chunk starterCandidate, Chunk pieceCandidate);
+    
+    /**
+     * When a chunk is loaded and deemed to be a valid starter candidate for this structure
+     * this method is called to add the chunk to the structure's list of starter candidates
+     * @param starterCandidate
+     * @return
+     */
+    public boolean addStarterCandidate(Chunk starterCandidate);
+    
+    /**
+     * Determines whether the structure starting from the given Chunk
+     * is complete.
+     * @param startChunk
+     * @return
+     */
+    public boolean isComplete(Chunk startChunk);
+
+    /**
+     * Actually build the structure.
+     * @param startChunk Chunk to start the structure gen from
+     * @param direction Direction to generate in
+     * @return Whether the build generated successfully
+     */
+    public boolean generate(Chunk startChunk, EnumFacing direction);
+    
+    /**
+     * Ez getter for the definition associated with this structure
+     * @return
+     */
+    public StructureDefinition getDefinition();
 }
