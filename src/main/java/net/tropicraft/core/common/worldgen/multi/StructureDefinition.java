@@ -43,15 +43,18 @@ public abstract class StructureDefinition {
      * @return Whether the chunk is a valid starter chunk for this structure definition
      */
     public boolean isValidStarterChunk(Chunk chunk) {
+        boolean allPredicatesMet = true;
         for (Predicate<Chunk> predicate : starterChunkConditions()) {
-            if (predicate.apply(chunk)) {
-                return true;
+            if (!predicate.apply(chunk)) {
+                allPredicatesMet = false;
             }
         }
         
-        return false;
+        return allPredicatesMet;
     }
     
     public abstract boolean generate(Chunk startChunk, EnumFacing direction);
+    
+    public abstract int getDimensionID();
     
 }

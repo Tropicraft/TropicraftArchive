@@ -13,7 +13,7 @@ public class VillagePredicates {
     public static Predicate<Chunk> BEACH_BIOME;
     
     public static void init(World world) {
-        OCEAN_BIOME = new BiomePredicate(world.getBiomeProvider(), BiomeTropicraft.tropicsOcean, BiomeTropicraft.tropics);
-        BEACH_BIOME = new BiomePredicate(world.getBiomeProvider(), BiomeTropicraft.tropicsBeach);
+        OCEAN_BIOME = new BiomePredicate(world.getBiomeProvider(), BiomeTropicraft.tropicsOcean);
+        BEACH_BIOME = new BiomePredicate(world.getBiomeProvider(), BiomeTropicraft.tropicsBeach, BiomeTropicraft.tropics);
     }
 }

@@ -72,4 +72,5 @@ public interface Structure {
      * @return
      */
     public StructureDefinition getDefinition();
+    public int getDimensionID();
 }

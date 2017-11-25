@@ -125,7 +125,7 @@ public class ChunkProviderTropicraft implements IChunkGenerator { //NOTE: THIS W
 
     @Override
     public void recreateStructures(Chunk chunkIn, int x, int z) {
-
+        //TODO ? StructureMaster.onChunkGeneration(chunkIn);
     }
 
     @Override

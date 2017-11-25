@@ -11,6 +11,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.tropicraft.core.common.biome.decorators.BiomeDecoratorTropicsBeach;
+import net.tropicraft.core.common.dimension.TropicraftWorldUtils;
 import net.tropicraft.core.common.dimension.WorldProviderTropicraft;
 import net.tropicraft.core.common.worldgen.multi.ChunkOffset;
 import net.tropicraft.core.common.worldgen.multi.StructureDefinition;
@@ -39,15 +40,15 @@ public class StructureDefinitionVillage extends StructureDefinition {
         starterChunkConditions.add(VillagePredicates.BEACH_BIOME);
         
         //looks like villages are 4.75 chunks long and 5.375 chunks wide
-        int z = 0;
-        //for (int z = -2; z < 3; z++) {
+        //int z = 0;
+        for (int z = -2; z < 3; z++) {
             this.addCandidate(new ChunkOffset(1, z), VillagePredicates.OCEAN_BIOME);
-//            this.addCandidate(new ChunkOffset(2, z), VillagePredicates.OCEAN_BIOME);
-//            this.addCandidate(new ChunkOffset(3, z), VillagePredicates.OCEAN_BIOME);
-//            this.addCandidate(new ChunkOffset(4, z), VillagePredicates.OCEAN_BIOME);
-//            this.addCandidate(new ChunkOffset(5, z), VillagePredicates.OCEAN_BIOME);
+            this.addCandidate(new ChunkOffset(2, z), VillagePredicates.OCEAN_BIOME);
+            this.addCandidate(new ChunkOffset(3, z), VillagePredicates.OCEAN_BIOME);
+            this.addCandidate(new ChunkOffset(4, z), VillagePredicates.OCEAN_BIOME);
+            this.addCandidate(new ChunkOffset(5, z), VillagePredicates.OCEAN_BIOME);
             //this.addCandidate(new ChunkOffset(6, z), VillagePredicates.OCEAN_BIOME);
-      //  }
+        }
     }
 
     @Override
@@ -66,7 +67,7 @@ public class StructureDefinitionVillage extends StructureDefinition {
     
     public static boolean decorateForVillage(World world, Random rand, BlockPos pos) {
         boolean success = false;
-        for (int ii = 0; ii < 20 && !success; ii++) {
+        for (int ii = 0; ii < 30 && !success; ii++) {
             int i = BiomeDecoratorTropicsBeach.randCoord(rand, pos.getX(), 16);
             int k = BiomeDecoratorTropicsBeach.randCoord(rand, pos.getZ(), 16);
             int y = world.getTopSolidOrLiquidBlock(new BlockPos(i, 0, k)).getY();
@@ -75,6 +76,11 @@ public class StructureDefinitionVillage extends StructureDefinition {
         }
         
         return success;
+    }
+
+    @Override
+    public int getDimensionID() {
+        return TropicraftWorldUtils.TROPICS_DIMENSION_ID;
     }
 
 }

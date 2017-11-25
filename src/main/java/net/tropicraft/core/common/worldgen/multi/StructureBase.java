@@ -164,13 +164,19 @@ public class StructureBase implements Structure {
     
     @Override
     public boolean equals(Object o) {
+        //TODO if we ever need this, actually implement in a proper way. also hashCode
         StructureBase other = (StructureBase)o;
-        return false;
+        return this.definition.equals(other.definition);
     }
 
     @Override
     public StructureDefinition getDefinition() {
         return this.definition;
+    }
+    
+    @Override
+    public int getDimensionID() {
+        return this.definition.getDimensionID();
     }
     
 /*
