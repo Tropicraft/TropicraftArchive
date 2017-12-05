@@ -107,12 +107,11 @@ public class BiomeDecoratorTropicraft extends BiomeDecorator {
             int count = 3 + rand.nextInt(3);
             for (int i = 0; i < count; i++)
             {
-                int x = rand.nextInt(16) + 8;
-                int z = rand.nextInt(16) + 8;
-                BlockPos blockpos = pos.add(x, rand.nextInt(28) + 4, z);
+                BlockPos blockpos = pos.add(rand.nextInt(16), rand.nextInt(28) + 4, rand.nextInt(16));
 
                 net.minecraft.block.state.IBlockState state = worldIn.getBlockState(blockpos);
-                if (state.getBlock().isReplaceableOreGen(state, worldIn, blockpos, net.minecraft.block.state.pattern.BlockMatcher.forBlock(Blocks.STONE))) {
+                if (state.getBlock().isReplaceableOreGen(state, worldIn, blockpos, net.minecraft.block.state.pattern.BlockMatcher.forBlock(Blocks.STONE)))
+                {
                     worldIn.setBlockState(blockpos, BlockRegistry.ore.defaultForVariant(TropicraftOres.AZURITE), 2);
                 }
             }

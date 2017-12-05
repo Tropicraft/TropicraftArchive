@@ -72,7 +72,7 @@ public class TCWorldGenerator implements IWorldGenerator {
                 //*********** HERE TO BOTTOM ARE THINGS NECESSARY TO GET TO THE TROPICS ***********//
 
                 if (TropicsConfigs.genOverworldPalms && random.nextInt(10) == 0) {
-                    BlockPos posChunk = new BlockPos(chunkX, 0, chunkZ);
+                    BlockPos posChunk = new BlockPos(cx, 0, cz);
                     Biome biome = world.getBiomeProvider().getBiome(posChunk);			
 
                     if ((TropicsConfigs.genOverworldPalmsBeachOnly && biome == Biomes.BEACH) || !TropicsConfigs.genOverworldPalmsBeachOnly)
@@ -80,19 +80,12 @@ public class TCWorldGenerator implements IWorldGenerator {
                             for (int j3 = 0; j3 < TropicsConfigs.factorPalmOverworld; j3++) {
                                 l = random.nextInt(62) + 64;
 
-                                BlockPos pos;
+                                BlockPos pos = new BlockPos(k, l, i1);
                                 if (random.nextInt(5) == 0) {
-                                    pos = new BlockPos(chunkX + 16, l, chunkZ + 16);
                                     (new WorldGenLargePalmTrees(world, random)).generate(world, random, pos);
                                 } else if (random.nextInt(5) < 3) {
-                                    int x = chunkX + 13 + random.nextInt(5);
-                                    int z = chunkZ + 13 + random.nextInt(5);
-                                    pos = new BlockPos(x, l, z);
                                     (new WorldGenCurvedPalms(world, random)).generate(world, random, pos);
                                 } else {
-                                    int x = chunkX + 13 + random.nextInt(5);
-                                    int z = chunkZ + 13 + random.nextInt(5);
-                                    pos = new BlockPos(x, l, z);
                                     (new WorldGenNormalPalms(world, random)).generate(world, random, pos);
                                 }
                             }
@@ -102,14 +95,14 @@ public class TCWorldGenerator implements IWorldGenerator {
                 // Pineapples
                 if (TropicsConfigs.genOverworldPineapples && random.nextInt(GenRates.TALL_FLOWERS_CHANCE) == 0) {
                     l = random.nextInt(62) + 64;
-                    BlockPos pineapplePos = new BlockPos(chunkX, l, chunkZ);
+                    BlockPos pineapplePos = new BlockPos(k, l, i1);
                     (new WorldGenTallFlower(world, random, BlockRegistry.pineapple.getDefaultState())).generate(pineapplePos);
                 }
 
                 // Bamboo
                 if (TropicsConfigs.genOverworldBamboo && random.nextInt(GenRates.BAMBOO_CHANCE) == 0) {
                     l = random.nextInt(62) + 64;
-                    BlockPos bambooPos = new BlockPos(chunkX, l, chunkZ);
+                    BlockPos bambooPos = new BlockPos(k, l, i1);
                     (new WorldGenBamboo(world, random)).generate(world, random, bambooPos);
                 }
             }
