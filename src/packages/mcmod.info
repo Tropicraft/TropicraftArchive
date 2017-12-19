@@ -1,0 +1,17 @@
+[
+  {
+    "modid": "tropicraftmod",
+    "name": "Tropicraft",
+    "description": "Meet the team! Cojomax99, Corosus, fishtaco, MrRube, Mr_okushama, newthead, _303. \n\nThe utopian idyllic getaway that you have been waiting for! Explore an entire dimension of relaxing beaches and dense rainforests while interacting with the native wildlife, tribes, and more!",
+    "version": "v5.1",
+    "mcversion": "1.6.4",
+    "url": "http://tropicraft.net",
+    "updateUrl": "",
+    "authors": [],
+    "credits": "Too many to list here, see our forum or website!",
+    "logoFile": "",
+    "screenshots": [],
+    "parent":"",
+    "dependencies": []
+  }
+]
