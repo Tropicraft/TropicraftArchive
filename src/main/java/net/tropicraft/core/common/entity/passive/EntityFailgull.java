@@ -3,6 +3,8 @@ package net.tropicraft.core.common.entity.passive;
 import java.util.List;
 import java.util.Random;
 
+import javax.vecmath.Vector3f;
+
 import net.minecraft.entity.EntityFlying;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureType;
@@ -19,9 +21,9 @@ import net.minecraft.world.World;
 public class EntityFailgull extends EntityFlying {
 
 	public int courseChangeCooldown = 0;
-	public double waypointX;
-	public double waypointY;
-	public double waypointZ;
+//	public double waypointX;
+//	public double waypointY;
+//	public double waypointZ;
 
 	public boolean inFlock;
 	public EntityFailgull leader;
@@ -106,18 +108,7 @@ public class EntityFailgull extends EntityFlying {
 		 */
 		@Override
 		public void updateTask() {
-			if (this.parentEntity.getAttackTarget() == null) {
-				this.parentEntity.renderYawOffset = this.parentEntity.rotationYaw = -((float)MathHelper.atan2(this.parentEntity.motionX, this.parentEntity.motionZ)) * (180F / (float)Math.PI);
-			} else {
-				EntityLivingBase entitylivingbase = this.parentEntity.getAttackTarget();
-				double d0 = 64.0D;
-
-				if (entitylivingbase.getDistanceSq(this.parentEntity) < d0 * d0) {
-					double d1 = entitylivingbase.posX - this.parentEntity.posX;
-					double d2 = entitylivingbase.posZ - this.parentEntity.posZ;
-					this.parentEntity.renderYawOffset = this.parentEntity.rotationYaw = -((float)MathHelper.atan2(d1, d2)) * (180F / (float)Math.PI);
-				}
-			}
+			this.parentEntity.renderYawOffset = this.parentEntity.rotationYaw = -((float)MathHelper.atan2(this.parentEntity.motionX, this.parentEntity.motionZ)) * (180F / (float)Math.PI);
 		}
 	}
 
@@ -171,78 +162,218 @@ public class EntityFailgull extends EntityFlying {
 	static class FailgullMoveHelper extends EntityMoveHelper {
 		private EntityFailgull failgull;
 		private int courseChangeCooldown;
-		
-		public double waypointX;
-		public double waypointY;
-		public double waypointZ;
+		private static double NEIGHBOR_RADIUS = 30D;
+		private static float MAX_VELOCITY = 0.01f;
+		private static float MAX_SPEED = 0.01f;
+		private static float SEPARATION_WEIGHT = 1f;
+		private static float ALIGNMENT_WEIGHT = 1f;
+		private static float COHESION_WEIGHT = 1f;
+		private static float MAX_FORCE = 0.15f;
+		private static float DESIRED_SEPARATION = 3f;
 
 		public FailgullMoveHelper(EntityFailgull gull) {
 			super(gull);
 			this.failgull = gull;
 		}
+		
+		public void step() {
+			List<EntityFailgull> neighbors = failgull.world.getEntitiesWithinAABB(EntityFailgull.class, failgull.getEntityBoundingBox().grow(NEIGHBOR_RADIUS, NEIGHBOR_RADIUS, NEIGHBOR_RADIUS));
+			Vector3f acceleration = this.flock(neighbors);
+		//	System.out.println(acceleration);
+		//	System.out.println(MAX_FORCE);
+			failgull.motionX += acceleration.x;
+			failgull.motionY += acceleration.y;
+			failgull.motionZ += acceleration.z;
+			limitVelocity(MAX_SPEED);
+			failgull.posX += failgull.motionX;
+			failgull.posY += failgull.motionY;
+			failgull.posZ += failgull.motionZ;
+		}
+		
+		public void limitVelocity(float limitVal) {
+			if (failgull.motionX > limitVal) {
+				failgull.motionX = limitVal;
+			}
+			
+			if (failgull.motionY > limitVal) {
+				failgull.motionY = limitVal;
+			}
+			
+			if (failgull.motionZ > limitVal) {
+				failgull.motionZ = limitVal;
+			}
+		}
+		
+		public void limit(Vector3f vec, float val) {
+			if (vec.x > val) vec.x = val;
+			if (vec.y > val) vec.y = val;
+			if (vec.z > val) vec.z = val;
+		}
+		
+		public Vector3f flock(List<EntityFailgull> boids) {
+			Vector3f separation = this.separate(boids);
+			separation.scale(SEPARATION_WEIGHT);
+			Vector3f alignment = this.align(boids);
+			alignment.scale(ALIGNMENT_WEIGHT);
+			Vector3f cohesion = this.cohere(boids);
+			cohesion.scale(COHESION_WEIGHT);
+			separation.add(alignment);
+			separation.add(cohesion);
+			return cohesion;
+		}
+		
+		public Vector3f separate(List<EntityFailgull> boids) {
+			Vector3f mean = new Vector3f();
+			int count = 0;
+			
+			for (EntityFailgull boid : boids) {
+				Vector3f curr = getCurrentPos(this.failgull);
+				float d = distance(curr, getCurrentPos(boid));
+				if (d > 0 && d < DESIRED_SEPARATION) {
+					curr.sub(getCurrentPos(boid));
+					curr.normalize();
+					curr.scale(1 / d);
+					mean.add(curr);
+					count++;
+				}
+			}
+			
+			if (count > 0) mean.scale(1 / count);
+			
+			return mean;
+		}
+
+		public Vector3f align(List<EntityFailgull> boids) {
+			Vector3f mean = new Vector3f();
+			int count = 0;
+			for (EntityFailgull boid : boids) {
+//				float d = distance(getCurrentPos(this.failgull), getCurrentPos(boid));
+//				if ()
+				mean.add(getCurrentVelocity(boid));
+				count++;
+			}
+			
+			if (count > 0) {
+				mean.scale(1 / count);
+			}
+			
+			limit(mean, MAX_FORCE);
+			
+			return mean;
+		}
+		
+		public float distance(Vector3f a, Vector3f b) {
+			return (float) Math.sqrt(((a.x + b.x) * (a.x + b.x)) + ((a.y + b.y) * (a.y + b.y)) + ((a.z + b.z) * (a.z + b.z)));
+		}
+
+		public Vector3f cohere(List<EntityFailgull> boids) {
+			Vector3f sum = new Vector3f(0, 0, 0);
+			int count = 0;
+			for (EntityFailgull boid : boids) {
+				// exclude distance check here
+				sum.add(getCurrentPos(boid));
+				count++;
+			}
+			
+			sum.scale(1 / count);
+			
+			if (count > 0) return steerTo(sum);
+			else return sum;
+		}
+		
+		public Vector3f getCurrentPos(EntityFailgull boid) {
+			return new Vector3f((float)boid.posX, (float)boid.posY, (float)boid.posZ);
+		}
+		
+		public Vector3f getCurrentVelocity(EntityFailgull boid) {
+			return new Vector3f((float)boid.motionX, (float)boid.motionY, (float)boid.motionZ);
+		}
+		
+		public Vector3f steerTo(Vector3f target) {
+			Vector3f pos = new Vector3f();
+			Vector3f targetClone = new Vector3f(target);
+			targetClone.sub(getCurrentPos(this.failgull));
+			Vector3f desired = new Vector3f(targetClone);
+			// magnitude of vector
+			float d = desired.length();
+			
+			// account for double and float differences
+			// if dist > 0, calc steering
+			// otherwise, return 0 vector
+			if (d > 0) {
+				desired.normalize();
+				
+				if (d < 100) {
+					desired.scale((float)(0.3 * (d/100.0)));
+				} else {
+					desired.scale(0.3f);
+				}
+				
+				Vector3f steer = new Vector3f();
+				steer.sub(desired, getCurrentVelocity(this.failgull));
+				limit(steer, MAX_FORCE);
+
+				return steer;
+			} else {
+				return new Vector3f(0, 0, 0);
+			}
+		}
 
 		@Override
 		public void onUpdateMoveHelper() {
-			double d0 = this.waypointX - this.posX;
-			double d1 = this.waypointY - this.posY;
-			double d2 = this.waypointZ - this.posZ;
+            double d0 = this.posX - this.failgull.posX;
+            double d1 = this.posY - this.failgull.posY;
+            double d2 = this.posZ - this.failgull.posZ;
 			double d3 = d0 * d0 + d1 * d1 + d2 * d2;
-
-			if (d3 < 1.0D || d3 > 3600.0D) {
-				this.waypointX = this.posX + (double)((failgull.rand.nextFloat() * 2.0F - 1.0F) * 16.0F);
-				this.waypointY = this.posY + (double)((failgull.rand.nextFloat() * 2.0F - 1.0F) * 16.0F);
-				this.waypointZ = this.posZ + (double)((failgull.rand.nextFloat() * 2.0F - 1.0F) * 16.0F);
-			}
 
 			if (this.courseChangeCooldown-- <= 0) {
 				this.courseChangeCooldown += failgull.rand.nextInt(5) + 2;
 				d3 = (double)MathHelper.sqrt(d3);
 
-				if (this.isNotColliding(this.waypointX, this.waypointY, this.waypointZ, d3)) {
-					failgull.motionX += d0 / d3 * 0.1D;
-					failgull.motionY += d1 / d3 * 0.1D;
-					failgull.motionZ += d2 / d3 * 0.1D;
+				if (this.isNotColliding(this.posX, this.posY, this.posZ, d3)) {
+//					failgull.motionX += d0 / d3 * 0.1D;
+//					failgull.motionY += d1 / d3 * 0.1D;
+//					failgull.motionZ += d2 / d3 * 0.1D;
+					this.step();
 				} else {
-					this.waypointX = this.posX;
-					this.waypointY = this.posY;
-					this.waypointZ = this.posZ;
+					this.action = EntityMoveHelper.Action.WAIT;
 				}
 			}
 
-			if (failgull.leader != null) {
-				if (failgull.flockPosition % 2 == 0) {
-					this.waypointX = failgull.leader.waypointX;
-					this.waypointY = failgull.leader.waypointY;
-					this.waypointZ = failgull.leader.waypointZ;
-				} else {
-					this.waypointX = failgull.leader.waypointX;
-					this.waypointY = failgull.leader.waypointY;
-					this.waypointZ = failgull.leader.waypointZ;
-				}
-			}
+//			if (failgull.leader != null) {
+//				if (failgull.flockPosition % 2 == 0) {
+//					this.waypointX = failgull.leader.waypointX;
+//					this.waypointY = failgull.leader.waypointY;
+//					this.waypointZ = failgull.leader.waypointZ;
+//				} else {
+//					this.waypointX = failgull.leader.waypointX;
+//					this.waypointY = failgull.leader.waypointY;
+//					this.waypointZ = failgull.leader.waypointZ;
+//				}
+//			}
 
-			if (!failgull.inFlock) {
-				List list = failgull.world.getEntitiesWithinAABB(EntityFailgull.class, failgull.getEntityBoundingBox().grow(10D, 10D, 10D));
-
-				int lowest = failgull.getEntityId();
-				EntityFailgull f = null;
-
-				for (Object o : list) {
-					f = (EntityFailgull) o;
-
-					if (f.leader != null) {
-						failgull.flockPosition = ++f.leader.flockCount;
-						f.inFlock = true;
-						failgull.leader = f.leader;
-						break;
-					}
-				}
-			}
-
-			if (!failgull.inFlock && failgull.leader == null) {
-				failgull.leader = failgull;
-				failgull.inFlock = true;
-			}
+//			if (!failgull.inFlock) {
+//				List list = failgull.world.getEntitiesWithinAABB(EntityFailgull.class, failgull.getEntityBoundingBox().grow(10D, 10D, 10D));
+//
+//				int lowest = failgull.getEntityId();
+//				EntityFailgull f = null;
+//
+//				for (Object o : list) {
+//					f = (EntityFailgull) o;
+//
+//					if (f.leader != null) {
+//						failgull.flockPosition = ++f.leader.flockCount;
+//						f.inFlock = true;
+//						failgull.leader = f.leader;
+//						break;
+//					}
+//				}
+//			}
+//
+//			if (!failgull.inFlock && failgull.leader == null) {
+//				failgull.leader = failgull;
+//				failgull.inFlock = true;
+//			}
 		}
 
 		/**
