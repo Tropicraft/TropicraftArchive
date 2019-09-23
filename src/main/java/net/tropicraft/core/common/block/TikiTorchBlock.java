@@ -84,11 +84,16 @@ public class TikiTorchBlock extends Block {
         }
         PlaceMode mode = canPlaceTikiTorchOn(state, world, pos);
         if (mode == PlaceMode.FULL) {
-            return world.isAirBlock(pos.up()) && world.isAirBlock(pos.up(2));
+            return isAirOrSelf(world, pos.up()) && isAirOrSelf(world, pos.up(2));
         } else if (mode == PlaceMode.TOP_ONLY) {
             return true;
         }
         return false;
+    }
+    
+    private boolean isAirOrSelf(IWorldReader world, BlockPos pos) {
+        BlockState state = world.getBlockState(pos);
+        return state.getBlock() == this || state.isAir(world, pos);
     }
 
     private PlaceMode canPlaceTikiTorchOn(BlockState state, IWorldReader world, BlockPos pos) {
