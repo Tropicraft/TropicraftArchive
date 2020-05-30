@@ -26,6 +26,8 @@ public class TropiSkellyModel extends AbstractZombieModel<TropiSkellyEntity> {
         bipedLeftLeg.mirror = true;
         bipedLeftLeg.addBox(-1.0F, 0.0F, -1.0F, 2, 12, 2, g);
         bipedLeftLeg.setRotationPoint(2.0F, 12.0F, 0.0F);
+        
+        bipedHeadwear.isHidden = true; // Not compatible with skirt texture
 
         final ModelBox hulaSkirt = new ModelBox(this.bipedBody, 40, 0, -4.0F, 12.0F, -2.0F, 8, 3, 4, 0.0F);
         bipedBody.cubeList.add(hulaSkirt);
