@@ -60,6 +60,7 @@ import net.tropicraft.core.common.drinks.MixerRecipes;
 import net.tropicraft.core.common.entity.BambooItemFrame;
 import net.tropicraft.core.common.entity.SeaTurtleEntity;
 import net.tropicraft.core.common.entity.TropicraftEntities;
+import net.tropicraft.core.common.entity.egg.SeaTurtleEggEntity;
 import net.tropicraft.core.common.entity.egg.SeaUrchinEggEntity;
 import net.tropicraft.core.common.entity.egg.StarfishEggEntity;
 import net.tropicraft.core.common.entity.hostile.AshenEntity;
@@ -176,6 +177,7 @@ public class Tropicraft
         RenderingRegistry.registerEntityRenderingHandler(AshenMaskEntity.class, AshenMaskRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(ExplodingCoconutEntity.class, manager -> new SpriteRenderer<>(manager, event.getMinecraftSupplier().get().getItemRenderer()));
         RenderingRegistry.registerEntityRenderingHandler(SharkEntity.class, SharkRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(SeaTurtleEggEntity.class, EggRenderer::new);
 
         ClientRegistry.bindTileEntitySpecialRenderer(BambooChestTileEntity.class, new BambooChestRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(SifterTileEntity.class, new SifterRenderer());

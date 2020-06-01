@@ -8,13 +8,13 @@ import net.minecraft.entity.item.ItemFrameEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.FilledMapItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Direction;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.MapData;
@@ -127,4 +127,9 @@ public class BambooItemFrame extends ItemFrameEntity implements IEntityAdditiona
         this.hangingPosition = additionalData.readBlockPos();
         updateFacingWithBoundingBox(Direction.byIndex(additionalData.readByte()));
     }
+
+	@Override
+	public ItemStack getPickedResult(RayTraceResult target) {
+		return new ItemStack(TropicraftItems.BAMBOO_ITEM_FRAME.get());
+	}
 }

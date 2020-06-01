@@ -15,7 +15,6 @@ public class SeaUrchinEggEntity extends EchinodermEggEntity {
 		super(type, world);
 	}
 
-
 	@Override
 	public String getEggTexture() {
 		return "seaurchinegg";

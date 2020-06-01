@@ -43,9 +43,9 @@ public class EggModel extends EntityModel<EggEntity> {
         double randRotator = entityliving.rotationRand;
         if (hatching) {
             body.rotateAngleY = 0F;
-            body.rotateAngleY = (float) (Math.sin(entityliving.ticksExisted * .4)) * .2f;
-            body.rotateAngleX = (float) ((Math.sin(randRotator * 2))) * .2f;
-            body.rotateAngleZ = (float) ((Math.cos(randRotator * 2))) * .2f;
+            body.rotateAngleY = (float) (Math.sin((entityliving.ticksExisted + partialTick) * .6)) * .6f;
+            body.rotateAngleX = (float) ((Math.sin(randRotator * 4))) * .6f;
+            body.rotateAngleZ = (float) ((Math.cos(randRotator * 4))) * .6f;
         } else {
             body.rotateAngleY = 0F;
             body.rotateAngleX = 0F;
