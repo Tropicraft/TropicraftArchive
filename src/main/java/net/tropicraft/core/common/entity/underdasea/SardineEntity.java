@@ -7,7 +7,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+import net.tropicraft.core.common.item.TropicraftItems;
 
 public class SardineEntity extends AbstractGroupFishEntity implements IAtlasFish {
 
@@ -54,5 +56,10 @@ public class SardineEntity extends AbstractGroupFishEntity implements IAtlasFish
     @Override
     public int getAtlasSlot() {
         return 8;
+    }
+
+    @Override
+    public ItemStack getPickedResult(RayTraceResult target) {
+        return new ItemStack(TropicraftItems.SARDINE_SPAWN_EGG.get());
     }
 }

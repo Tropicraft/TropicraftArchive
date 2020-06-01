@@ -42,6 +42,11 @@ public class EIHEntity extends TropicraftCreatureEntity {
     }
 
     @Override
+    public ItemStack getPickedResult(RayTraceResult target) {
+        return new ItemStack(TropicraftItems.EIH_SPAWN_EGG.get());
+    }
+
+    @Override
     public void registerData() {
         super.registerData();
         getDataManager().register(STATE, (byte) 0);

@@ -1,26 +1,29 @@
 package net.tropicraft.core.common.entity.underdasea;
 
+import java.util.ArrayList;
+import java.util.EnumSet;
+
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.passive.WaterMobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.BossInfo;
 import net.minecraft.world.ServerBossInfo;
 import net.minecraft.world.World;
 import net.tropicraft.core.common.entity.ai.fishies.AvoidWallsGoal;
 import net.tropicraft.core.common.entity.ai.fishies.RandomSwimGoal;
-import net.tropicraft.core.common.entity.ai.fishies.TargetPreyGoal;
 import net.tropicraft.core.common.entity.ai.fishies.SwimToAvoidEntityGoal;
-
-import java.util.ArrayList;
-import java.util.EnumSet;
+import net.tropicraft.core.common.entity.ai.fishies.TargetPreyGoal;
+import net.tropicraft.core.common.item.TropicraftItems;
 
 public class SharkEntity extends TropicraftFishEntity {
 
@@ -151,5 +154,10 @@ public class SharkEntity extends TropicraftFishEntity {
     @Override
     public boolean canDespawn(double p) {
         return !isBoss() && super.canDespawn(p);
+    }
+
+    @Override
+    public ItemStack getPickedResult(RayTraceResult target) {
+        return new ItemStack(TropicraftItems.HAMMERHEAD_SPAWN_EGG.get());
     }
 }

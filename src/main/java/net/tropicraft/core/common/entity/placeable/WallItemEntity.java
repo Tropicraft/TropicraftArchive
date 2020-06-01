@@ -16,6 +16,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.Direction;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
@@ -125,4 +126,9 @@ public class WallItemEntity extends HangingEntity implements IEntityAdditionalSp
 
         super.writeAdditional(compound);
     }
+
+    @Override
+	public ItemStack getPickedResult(RayTraceResult target) {
+		return getDisplayedItem();
+	}
 }

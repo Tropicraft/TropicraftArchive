@@ -21,11 +21,14 @@ import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.tropicraft.core.common.entity.hostile.TropicraftCreatureEntity;
+import net.tropicraft.core.common.item.TropicraftItems;
 import net.tropicraft.core.common.sound.Sounds;
 
 public class IguanaEntity extends TropicraftCreatureEntity {
@@ -39,6 +42,11 @@ public class IguanaEntity extends TropicraftCreatureEntity {
 
     public IguanaEntity(EntityType<? extends CreatureEntity> type, World world) {
         super(type, world);
+    }
+
+    @Override
+    public ItemStack getPickedResult(RayTraceResult target) {
+        return new ItemStack(TropicraftItems.IGUANA_SPAWN_EGG.get());
     }
 
     @Override

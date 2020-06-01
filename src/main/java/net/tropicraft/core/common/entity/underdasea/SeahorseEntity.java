@@ -4,7 +4,9 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+import net.tropicraft.core.common.item.TropicraftItems;
 
 public class SeahorseEntity extends AbstractTexturedFishEntity {
 	private final static String[] SEAHORSE_TEXTURE_NAMES = new String[] {"razz", "blue", "cyan", "yellow", "green", "orange"};
@@ -37,5 +39,10 @@ public class SeahorseEntity extends AbstractTexturedFishEntity {
 	@Override
 	protected SoundEvent getFlopSound() {
 		return null;
+	}
+
+	@Override
+	public ItemStack getPickedResult(RayTraceResult target) {
+		return new ItemStack(TropicraftItems.SEAHORSE_SPAWN_EGG.get());
 	}
 }
