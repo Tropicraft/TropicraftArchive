@@ -1,10 +1,21 @@
 package net.tropicraft.core.common.entity;
 
+import java.util.Random;
+import java.util.function.Supplier;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.monster.SpiderEntity;
-import net.minecraft.entity.passive.fish.TropicalFishEntity;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.passive.fish.AbstractFishEntity;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
@@ -24,14 +35,24 @@ import net.tropicraft.core.common.entity.neutral.VMonkeyEntity;
 import net.tropicraft.core.common.entity.passive.EntityKoaHunter;
 import net.tropicraft.core.common.entity.passive.FailgullEntity;
 import net.tropicraft.core.common.entity.passive.TropiCreeperEntity;
-import net.tropicraft.core.common.entity.placeable.*;
+import net.tropicraft.core.common.entity.placeable.AshenMaskEntity;
+import net.tropicraft.core.common.entity.placeable.BeachFloatEntity;
+import net.tropicraft.core.common.entity.placeable.ChairEntity;
+import net.tropicraft.core.common.entity.placeable.UmbrellaEntity;
+import net.tropicraft.core.common.entity.placeable.WallItemEntity;
 import net.tropicraft.core.common.entity.projectile.ExplodingCoconutEntity;
 import net.tropicraft.core.common.entity.projectile.LavaBallEntity;
 import net.tropicraft.core.common.entity.projectile.PoisonBlotEntity;
-import net.tropicraft.core.common.entity.underdasea.*;
-
-import java.rmi.registry.Registry;
-import java.util.function.Supplier;
+import net.tropicraft.core.common.entity.underdasea.EagleRayEntity;
+import net.tropicraft.core.common.entity.underdasea.MarlinEntity;
+import net.tropicraft.core.common.entity.underdasea.PiranhaEntity;
+import net.tropicraft.core.common.entity.underdasea.SardineEntity;
+import net.tropicraft.core.common.entity.underdasea.SeaUrchinEntity;
+import net.tropicraft.core.common.entity.underdasea.SeahorseEntity;
+import net.tropicraft.core.common.entity.underdasea.SharkEntity;
+import net.tropicraft.core.common.entity.underdasea.StarfishEntity;
+import net.tropicraft.core.common.entity.underdasea.TropicraftDolphinEntity;
+import net.tropicraft.core.common.entity.underdasea.TropicraftTropicalFishEntity;
 
 @Mod.EventBusSubscriber(modid = Constants.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class TropicraftEntities {
@@ -356,4 +377,48 @@ public class TropicraftEntities {
                 .setUpdateInterval(3)
                 .setShouldReceiveVelocityUpdates(true);
     }
+
+    public static void registerSpawns() {
+        registerWaterSpawn(TROPICAL_FISH.get(), AbstractFishEntity::func_223363_b);
+        registerWaterSpawn(RIVER_SARDINE.get(), AbstractFishEntity::func_223363_b);
+        registerWaterSpawn(PIRANHA.get(), AbstractFishEntity::func_223363_b);
+        registerWaterSpawn(DOLPHIN.get(), TropicraftEntities::canSpawnOceanWaterMob);
+        registerWaterSpawn(EAGLE_RAY.get(), TropicraftEntities::canSpawnOceanWaterMob);
+        registerWaterSpawn(MARLIN.get(), TropicraftEntities::canSpawnOceanWaterMob);
+        registerWaterSpawn(SEAHORSE.get(), TropicraftEntities::canSpawnOceanWaterMob);
+        registerWaterSpawn(SEA_URCHIN.get(), TropicraftEntities::canSpawnOceanWaterMob);
+        registerWaterSpawn(STARFISH.get(), TropicraftEntities::canSpawnOceanWaterMob);
+        registerWaterSpawn(HAMMERHEAD.get(), TropicraftEntities::canSpawnOceanWaterMob);
+
+        registerLandSpawn(KOA_HUNTER.get(), MobEntity::canSpawnOn);
+        registerLandSpawn(TROPI_CREEPER.get(), MobEntity::canSpawnOn);
+        registerLandSpawn(IGUANA.get(), MobEntity::canSpawnOn);
+        registerLandSpawn(TROPI_SKELLY.get(), MonsterEntity::func_223325_c);
+        registerLandSpawn(TROPI_SPIDER.get(), MonsterEntity::func_223325_c);
+        registerLandSpawn(EIH.get(), MobEntity::canSpawnOn);
+        registerLandSpawn(SEA_TURTLE.get(), SeaTurtleEntity::canSpawnOnLand);
+        registerLandSpawn(TREE_FROG.get(), MobEntity::canSpawnOn);
+        registerLandSpawn(V_MONKEY.get(), AnimalEntity::func_223316_b);
+        registerLandSpawn(ASHEN.get(), MobEntity::canSpawnOn);
+
+        registerLandSpawn(FAILGULL.get(), MobEntity::canSpawnOn);
+        // TODO tropibee, or from nests?
+    }
+
+    private static <T extends MobEntity> void registerLandSpawn(final EntityType<T> type, EntitySpawnPlacementRegistry.IPlacementPredicate<T> predicate) {
+        EntitySpawnPlacementRegistry.register(type, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, predicate);
+    }
+
+    private static <T extends MobEntity> void registerWaterSpawn(final EntityType<T> type, EntitySpawnPlacementRegistry.IPlacementPredicate<T> predicate) {
+        EntitySpawnPlacementRegistry.register(type, EntitySpawnPlacementRegistry.PlacementType.IN_WATER, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, predicate);
+    }
+
+    public static <T extends MobEntity> boolean canSpawnOceanWaterMob(EntityType<T> waterMob, IWorld world, SpawnReason reason, BlockPos pos, Random rand) {
+        return pos.getY() > 45 && pos.getY() < world.getSeaLevel() && world.getFluidState(pos).isTagged(FluidTags.WATER);
+    }
+
+    public static <T extends MobEntity> boolean canSpawnSurfaceOceanWaterMob(EntityType<T> waterMob, IWorld world, SpawnReason reason, BlockPos pos, Random rand) {
+        return pos.getY() > world.getSeaLevel() - 3 && pos.getY() < world.getSeaLevel() && world.getFluidState(pos).isTagged(FluidTags.WATER);
+    }
+
 }

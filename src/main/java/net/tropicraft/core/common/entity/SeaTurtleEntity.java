@@ -203,6 +203,10 @@ public class SeaTurtleEntity extends TurtleEntity {
         return passengers.isEmpty() ? null : passengers.get(0);
     }
 
+    public static boolean canSpawnOnLand(EntityType<SeaTurtleEntity> turtle, IWorld world, SpawnReason reason, BlockPos pos, Random rand) {
+        return pos.getY() < world.getSeaLevel() + 4 && world.getBlockState(pos.down()).getBlock() == Blocks.SAND && world.getLightSubtracted(pos, 0) > 8;
+    }
+
     @Override
     public boolean canBeSteered() {
         return getControllingPassenger() instanceof LivingEntity;

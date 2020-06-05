@@ -200,6 +200,7 @@ public class Tropicraft
         TropicraftPackets.init();
         TropicraftBiomes.addFeatures();
         ScubaData.registerCapability();
+        TropicraftEntities.registerSpawns();
     }
     
     private void onServerStarting(final FMLServerStartingEvent event) {
