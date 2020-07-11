@@ -13,10 +13,13 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.tropicraft.core.common.drinks.Drink;
 import net.tropicraft.core.common.entity.ai.vmonkey.*;
 import net.tropicraft.core.common.item.CocktailItem;
+import net.tropicraft.core.common.item.TropicraftItems;
+
 import javax.annotation.Nullable;
 
 public class VMonkeyEntity extends TameableEntity {
@@ -51,6 +54,7 @@ public class VMonkeyEntity extends TameableEntity {
 
     /** Entity this monkey is following around */
     private LivingEntity following;
+    private boolean madAboutStolenAlcohol;
 
     public VMonkeyEntity(EntityType<? extends TameableEntity> type, World world) {
         super(type, world);
@@ -82,6 +86,7 @@ public class VMonkeyEntity extends TameableEntity {
         goalSelector.addGoal(3, new MonkeyPickUpPinaColadaGoal(this));
         goalSelector.addGoal(2, new MonkeyStealDrinkGoal(this));
         goalSelector.addGoal(2, new MonkeySitAndDrinkGoal(this));
+        goalSelector.addGoal(2, new MonkeyAngryThrowGoal(this));
         goalSelector.addGoal(4, new MonkeySitInChairGoal(this, sitGoal));
         goalSelector.addGoal(4, sitGoal);
         goalSelector.addGoal(6, new MeleeAttackGoal(this, 1.0D, true));
@@ -234,4 +239,11 @@ public class VMonkeyEntity extends TameableEntity {
         }
     }
 
+    public boolean isMadAboutStolenAlcohol() {
+        return madAboutStolenAlcohol;
+    }
+
+    public void setMadAboutStolenAlcohol(boolean madAboutStolenAlcohol) {
+        this.madAboutStolenAlcohol = madAboutStolenAlcohol;
+    }
 }

@@ -89,6 +89,7 @@ public class MonkeyPickUpPinaColadaGoal extends Goal {
 
             if (!drinkEntity.isAlive()) {
                 drinkEntity = null;
+                entity.setMadAboutStolenAlcohol(true);
                 return;
             }
 
