@@ -12,6 +12,7 @@ import net.minecraft.block.FenceBlock;
 import net.minecraft.block.FenceGateBlock;
 import net.minecraft.block.FlowerBlock;
 import net.minecraft.block.FlowerPotBlock;
+import net.minecraft.block.LeavesBlock;
 import net.minecraft.block.LogBlock;
 import net.minecraft.block.RotatedPillarBlock;
 import net.minecraft.block.SaplingBlock;
@@ -97,8 +98,8 @@ public class Builder {
         return block(SlabBlock::new, lazyProp(source));
     }
 
-    public static Supplier<TropicraftLeavesBlock> leaves() {
-        return block(TropicraftLeavesBlock::new, lazyProp(Blocks.OAK_LEAVES.delegate));
+    public static Supplier<LeavesBlock> leaves(boolean decay) {
+        return block(decay ? LeavesBlock::new : TropicraftLeavesBlock::new, lazyProp(Blocks.OAK_LEAVES.delegate));
     }
 
     @SafeVarargs
