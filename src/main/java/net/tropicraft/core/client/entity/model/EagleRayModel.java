@@ -62,12 +62,18 @@ public class EagleRayModel extends EntityModel<EagleRayEntity> {
 	private void renderWings() {
 		GlStateManager.disableLighting();
 		GlStateManager.pushMatrix();
+		GlStateManager.translatef(0.5f / 16f, 0f, -0.5f);
 		GlStateManager.scalef(2f, 0.5f, 2f);
-		GlStateManager.translatef(0.1f, 0f, -0.25f);
+		
 		renderWing(false);
+		
+		// Rotate around center
+		GlStateManager.translatef(0, 0, 0.5f);
 		GlStateManager.rotatef(180f, 0f, 1f, 0f);
-		GlStateManager.translatef(0.10f, 0f, -1f);
+		GlStateManager.translatef(0, 0, -0.5f);
+		
 		renderWing(true);
+		
 		GlStateManager.popMatrix();
 		GlStateManager.enableLighting();
 	}
@@ -89,6 +95,9 @@ public class EagleRayModel extends EntityModel<EagleRayEntity> {
 		float maxUBack = 0.25f;
 		float minVBack = 0.5f;
 		float maxVBack = 1f;
+		
+		GlStateManager.pushMatrix();
+		GlStateManager.translatef(1.25f / 16f, 0, 0);
 
 		for (int i = 1; i < EagleRayEntity.WING_JOINTS; i++) {
 			float prevAmplitude = interpolatedWingAmplitudes[i - 1];
@@ -119,6 +128,8 @@ public class EagleRayModel extends EntityModel<EagleRayEntity> {
 			buf(buffer, x, amplitude, 0.0D, uFront, reverse ? maxVFront : minVFront);
 			tessellator.draw();
 		}
+		
+		GlStateManager.popMatrix();
 	}
 
 	@Override
