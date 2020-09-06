@@ -74,7 +74,7 @@ public class BlowGunItem extends ShootableItem {
                 arrowEntity.pickupStatus = AbstractArrowEntity.PickupStatus.CREATIVE_ONLY;
             }
 
-            Vec3d lookVec = shooter.func_213286_i(1.0F);
+            Vec3d lookVec = shooter.getUpVector(1.0F);
             Quaternion quaternion = new Quaternion(new Vector3f(lookVec), 0, true);
             Vec3d look = shooter.getLook(1.0F);
             Vector3f look3f = new Vector3f(look);
@@ -94,7 +94,7 @@ public class BlowGunItem extends ShootableItem {
         ArrowEntity arrowEntity = (ArrowEntity) arrowItem.createArrow(world, projectile, shooter);
         arrowEntity.setDamage(0);
         arrowEntity.setHitSound(SoundEvents.ITEM_CROSSBOW_HIT);
-        arrowEntity.func_213865_o(false);
+        arrowEntity.setShotFromCrossbow(false);
 
         return arrowEntity;
     }

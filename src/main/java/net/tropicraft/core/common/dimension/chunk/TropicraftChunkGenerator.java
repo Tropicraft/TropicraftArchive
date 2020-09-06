@@ -80,16 +80,16 @@ public class TropicraftChunkGenerator extends NoiseChunkGenerator<TropicraftGene
 
     // get depth / scale
     @Override
-    protected double[] func_222549_a(int x, int z) {
+    protected double[] getBiomeNoiseColumn(int x, int z) {
         double[] lvt_3_1_ = new double[2];
         float lvt_4_1_ = 0.0F;
         float lvt_5_1_ = 0.0F;
         float lvt_6_1_ = 0.0F;
-        float lvt_8_1_ = this.biomeProvider.func_222366_b(x, z).getDepth();
+        float lvt_8_1_ = this.biomeProvider.getBiomeAtFactorFour(x, z).getDepth();
 
         for(int lvt_9_1_ = -2; lvt_9_1_ <= 2; ++lvt_9_1_) {
             for(int lvt_10_1_ = -2; lvt_10_1_ <= 2; ++lvt_10_1_) {
-                Biome lvt_11_1_ = this.biomeProvider.func_222366_b(x + lvt_9_1_, z + lvt_10_1_);
+                Biome lvt_11_1_ = this.biomeProvider.getBiomeAtFactorFour(x + lvt_9_1_, z + lvt_10_1_);
                 float lvt_12_1_ = lvt_11_1_.getDepth();
                 float lvt_13_1_ = lvt_11_1_.getScale();
 
@@ -114,7 +114,7 @@ public class TropicraftChunkGenerator extends NoiseChunkGenerator<TropicraftGene
     }
 
     private double getSpecialDepth(int p_222574_1_, int p_222574_2_) {
-        double sDepth = this.depthNoise.func_215462_a((double)(p_222574_1_ * 200), 10.0D, (double)(p_222574_2_ * 200), 1.0D, 0.0D, true) / 8000.0D;
+        double sDepth = this.depthNoise.getValue((double)(p_222574_1_ * 200), 10.0D, (double)(p_222574_2_ * 200), 1.0D, 0.0D, true) / 8000.0D;
         if (sDepth < 0.0D) {
             sDepth = -sDepth * 0.3D;
         }
@@ -148,7 +148,7 @@ public class TropicraftChunkGenerator extends NoiseChunkGenerator<TropicraftGene
 
     // populate noise
     @Override
-    protected void func_222548_a(double[] doubles, int x, int z) {
+    protected void fillNoiseColumn(double[] doubles, int x, int z) {
         double xzScale = 684.4119873046875D;
         double yScale = 684.4119873046875D;
         double xzOtherScale = 8.555149841308594D;

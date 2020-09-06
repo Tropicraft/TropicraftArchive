@@ -522,7 +522,7 @@ public class TeleporterTropics extends Teleporter {
                 asupplier[0] = dimension::getType;
                 asupplier[1] = () -> columnpos;
                 logger.debug("Removing tropics portal ticket for {}:{}", asupplier);
-                this.world.getChunkProvider().func_217222_b(TicketType.PORTAL, new ChunkPos(position.pos), 3, columnpos);
+                this.world.getChunkProvider().releaseTicket(TicketType.PORTAL, new ChunkPos(position.pos), 3, columnpos);
                 iterator.remove();
             }
         }

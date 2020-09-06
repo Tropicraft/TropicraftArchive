@@ -246,7 +246,7 @@ public class FishingBobberEntity extends Entity {
    }
 
    private void checkCollision() {
-      RayTraceResult raytraceresult = ProjectileHelper.func_221267_a(this, this.getBoundingBox().expand(this.getMotion()).grow(1.0D), (p_213856_1_) -> {
+      RayTraceResult raytraceresult = ProjectileHelper.rayTrace(this, this.getBoundingBox().expand(this.getMotion()).grow(1.0D), (p_213856_1_) -> {
          return !p_213856_1_.isSpectator() && (p_213856_1_.canBeCollidedWith() || p_213856_1_ instanceof ItemEntity) && (p_213856_1_ != this.angler || this.ticksInAir >= 5);
       }, RayTraceContext.BlockMode.COLLIDER, true);
       if (raytraceresult.getType() != RayTraceResult.Type.MISS) {

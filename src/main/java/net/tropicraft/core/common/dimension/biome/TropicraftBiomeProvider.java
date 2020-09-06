@@ -53,9 +53,8 @@ public class TropicraftBiomeProvider extends BiomeProvider {
         return blockLayer.func_215738_a(x, z);
     }
 
-    // get noise biome
     @Override
-    public Biome func_222366_b(int x, int z) {
+    public Biome getBiomeAtFactorFour(int x, int z) {
         return noiseLayer.func_215738_a(x, z);
     }
 
