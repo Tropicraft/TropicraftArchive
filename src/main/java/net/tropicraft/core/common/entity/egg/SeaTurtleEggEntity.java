@@ -13,7 +13,8 @@ public class SeaTurtleEggEntity extends EggEntity {
 
     @Override
     public Entity onHatch() {
-        return TropicraftEntities.SEA_TURTLE.get().create(world);
+        return TropicraftEntities.SEA_TURTLE.get().create(world)
+                .setIsMature(false);
     }
 
     @Override
