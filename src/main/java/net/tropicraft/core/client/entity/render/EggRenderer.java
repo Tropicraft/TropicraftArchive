@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.entity.item.ArmorStandEntity;
 import net.minecraft.util.ResourceLocation;
 import net.tropicraft.core.client.TropicraftRenderUtils;
 import net.tropicraft.core.client.entity.model.EggModel;
@@ -60,6 +61,11 @@ public class EggRenderer extends LivingRenderer<EggEntity, EggModel> {
 	
 	@Override
 	protected ResourceLocation getEntityTexture(EggEntity entity) {
-		return TropicraftRenderUtils.bindTextureEntity(entity.getEggTexture());
-	}
+        return TropicraftRenderUtils.bindTextureEntity(entity.getEggTexture());
+    }
+
+	@Override
+    protected boolean canRenderName(EggEntity entity) {
+        return entity.isCustomNameVisible();
+    }
 }
