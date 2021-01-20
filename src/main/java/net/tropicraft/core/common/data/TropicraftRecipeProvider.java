@@ -87,7 +87,7 @@ public class TropicraftRecipeProvider extends RecipeProvider {
                 .patternLine("WWW").patternLine(" B ").patternLine(" B ")
                 .setGroup(Constants.MODID + ":umbrellas")
                 .key('W', wool)
-                .key('B', BAMBOO.get())
+                .key('B', BAMBOO_STICK.get())
                 .addCriterion("has_" + color.getName() + "_wool", this.hasItem(wool))
                 .build(consumer);
             
@@ -95,7 +95,7 @@ public class TropicraftRecipeProvider extends RecipeProvider {
                 .patternLine("BWB").patternLine("BWB").patternLine("BWB")
                 .setGroup(Constants.MODID + ":chairs")
                 .key('W', wool)
-                .key('B', BAMBOO.get())
+                .key('B', BAMBOO_STICK.get())
                 .addCriterion("has_" + color.getName() + "_wool", this.hasItem(wool))
                 .build(consumer);
             
