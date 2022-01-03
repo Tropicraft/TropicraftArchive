@@ -28,7 +28,7 @@ public class TropicraftFeatures {
     public static final DeferredRegister<Feature<?>> FEATURES = new DeferredRegister<>(ForgeRegistries.FEATURES, Constants.MODID);
 
 	public static final RegistryObject<FruitTreeFeature> GRAPEFRUIT_TREE = register(
-	        "grapefruit_tree", () -> new FruitTreeFeature(NoFeatureConfig::deserialize, TropicraftBlocks.ORANGE_SAPLING, () -> TropicraftBlocks.ORANGE_LEAVES.get().getDefaultState()));
+	        "grapefruit_tree", () -> new FruitTreeFeature(NoFeatureConfig::deserialize, TropicraftBlocks.GRAPEFRUIT_SAPLING, () -> TropicraftBlocks.GRAPEFRUIT_LEAVES.get().getDefaultState()));
 	public static final RegistryObject<FruitTreeFeature> ORANGE_TREE = register(
 	        "orange_tree", () -> new FruitTreeFeature(NoFeatureConfig::deserialize, TropicraftBlocks.ORANGE_SAPLING, () -> TropicraftBlocks.ORANGE_LEAVES.get().getDefaultState()));
 	public static final RegistryObject<FruitTreeFeature> LEMON_TREE = register(
