@@ -156,7 +156,6 @@ public class TropicraftDimension {
 
         if (!player.isOnPortalCooldown()) {
             player.unRide();
-            //player.changeDimension(destLevel, new TropicsTeleporter(destLevel));
             player.changeDimension(destLevel, new PortalTropics(destLevel));
 
             //Note: Stops the player from teleporting right after going through the portal
