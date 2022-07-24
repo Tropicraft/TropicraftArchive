@@ -5,7 +5,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.village.poi.PoiManager;
@@ -13,7 +12,6 @@ import net.minecraft.world.entity.ai.village.poi.PoiRecord;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
@@ -24,6 +22,7 @@ import net.minecraft.world.level.portal.PortalInfo;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.util.ITeleporter;
 import net.tropicraft.Constants;
+import net.tropicraft.core.common.TropicraftTags;
 import net.tropicraft.core.common.block.TropicraftBlocks;
 import net.tropicraft.core.common.block.tileentity.BambooChestBlockEntity;
 import net.tropicraft.core.common.item.TropicraftItems;
@@ -223,7 +222,7 @@ public class PortalTropics implements ITeleporter {
         LOGGER.debug("Base Height is at: [Y:{}]", baseHeight);
 
         BlockPos pos = new BlockPos(x, y, z);
-        while (y >= seaLevel - 1 && (world.isEmptyBlock(pos) || !isValidBuildBlocks(world.getBlockState(pos)))) {
+        while (y >= seaLevel - 1 && (world.isEmptyBlock(pos) || !world.getBlockState(pos).is(TropicraftTags.Blocks.PORTAL_SURFACE))) {
             y = pos.getY();
             pos = pos.below();
         }
@@ -276,23 +275,10 @@ public class PortalTropics implements ITeleporter {
             BlockState state = world.getBlockState(mutablePos.setY(y));
 
             //TODO [1.17]: Confirm that these tags are going to work with modded blocks
-            if (isValidBuildBlocks(state)) {
+            if (state.is(TropicraftTags.Blocks.PORTAL_SURFACE)) {
                 return y;
             }
         }
         return 0;
-    }
-
-    /**
-     * TODO why in the world is this a thing?
-     * <p>
-     * A method to check if the block a valid place to put a portal
-     *
-     * @param state A block state of the block being tested
-     * @return A boolean value if the blockstate is a valid build block
-     */
-
-    private static boolean isValidBuildBlocks(BlockState state) {
-        return state.is(BlockTags.DIRT) || state.is(BlockTags.SAND) || state.is(Blocks.WATER) || state.is(BlockTags.BASE_STONE_OVERWORLD);
     }
 }

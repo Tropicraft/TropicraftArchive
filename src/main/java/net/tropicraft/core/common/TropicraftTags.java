@@ -45,6 +45,8 @@ public class TropicraftTags {
 
         public static final TagKey<Block> CLIMBABLE = modTag("climbable");
 
+        public static final TagKey<Block> PORTAL_SURFACE = modTag("portal_surface");
+
         static TagKey<Block> tag(String modid, String name) {
             return TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation(modid, name));
         }

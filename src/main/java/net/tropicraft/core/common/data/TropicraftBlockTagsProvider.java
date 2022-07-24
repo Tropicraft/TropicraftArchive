@@ -5,6 +5,7 @@ import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
 import net.tropicraft.Constants;
@@ -120,6 +121,9 @@ public class TropicraftBlockTagsProvider extends BlockTagsProvider {
                 AZURITE_BLOCK, ZIRCON_BLOCK, EUDIALYTE_BLOCK, SHAKA_BLOCK, MANGANESE_BLOCK);
 
         createTag(TropicraftTags.Blocks.BONGOS, SMALL_BONGO_DRUM, MEDIUM_BONGO_DRUM, LARGE_BONGO_DRUM);
+
+        createTag(TropicraftTags.Blocks.PORTAL_SURFACE, () -> Blocks.WATER);
+        appendToTag(TropicraftTags.Blocks.PORTAL_SURFACE, BlockTags.DIRT, BlockTags.SAND, BlockTags.BASE_STONE_OVERWORLD);
     }
     
     @SafeVarargs
