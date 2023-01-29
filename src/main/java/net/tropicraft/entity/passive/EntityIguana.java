@@ -116,6 +116,7 @@ public class EntityIguana extends EntityTropicraftAnimal implements IMob {
         if (angerLevel == 0) return null;
 
         EntityPlayer entityplayer = this.worldObj.getClosestVulnerablePlayerToEntity(this, 16.0D);
+        this.angerLevel--;
         return entityplayer != null && this.canEntityBeSeen(entityplayer) ? entityplayer : null;
     }
 
