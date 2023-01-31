@@ -108,6 +108,7 @@ public class ItemAshenMask extends ItemTropicraftArmor {
 	/**
 	 * Returns a custom model for rendering the mask.
 	 */
+	@SideOnly(Side.CLIENT)
 	@Override
 	public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, int armorSlot){
 		
