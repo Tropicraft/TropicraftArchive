@@ -20,7 +20,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.tropicraft.block.BlockBambooChest;
-import net.tropicraft.block.BlockbambooChute;
+import net.tropicraft.block.BlockBambooChute;
 import net.tropicraft.block.BlockBambooDoor;
 import net.tropicraft.block.BlockBambooMug;
 import net.tropicraft.block.BlockBongoDrum;
@@ -139,7 +139,7 @@ public class TCBlockRegistry {
 	public static final BlockPalmLeaves palmLeaves = new BlockPalmLeaves();
 	public static final BlockRainforestLeaves rainforestLeaves = new BlockRainforestLeaves();
 
-	public static final BlockbambooChute bambooChute = new BlockbambooChute();
+	public static final BlockBambooChute bambooChute = new BlockBambooChute();
 	public static final BlockFalling purifiedSand = new BlockPurifiedSand();
 
 	public static final BlockMineralSands mineralSands = new BlockMineralSands();

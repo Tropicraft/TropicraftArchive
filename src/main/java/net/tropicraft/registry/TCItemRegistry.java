@@ -9,7 +9,7 @@ import net.minecraft.item.ItemSword;
 import net.minecraftforge.common.util.EnumHelper;
 import net.tropicraft.entity.EntityTCItemFrame;
 import net.tropicraft.info.TCNames;
-import net.tropicraft.item.ItembambooChute;
+import net.tropicraft.item.ItemBambooChute;
 import net.tropicraft.item.ItemBambooDoor;
 import net.tropicraft.item.ItemCocktail;
 import net.tropicraft.item.ItemCoconutBomb;
@@ -182,7 +182,7 @@ public class TCItemRegistry {
 
     public static Item fishingRodTropical = (new ItemTropicalFishingRod()).setUnlocalizedName("FishingRodTropical");
 
-    public static Item bambooChute = new ItembambooChute(TCBlockRegistry.bambooChute).setUnlocalizedName("bambooChute");
+    public static Item bambooChute = new ItemBambooChute(TCBlockRegistry.bambooChute).setUnlocalizedName("bambooChute");
 
     public static final ArmorMaterial materialSnorkelGear = EnumHelper.addArmorMaterial("watergear", 40, new int[]{2, 4, 5, 6}, 9);
     public static Item flippers = new ItemFlippers(materialSnorkelGear, 0, 3);
