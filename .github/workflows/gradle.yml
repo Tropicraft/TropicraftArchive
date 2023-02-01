@@ -5,7 +5,7 @@ on:
 
 jobs:
 
-  jdk17:
+  java8:
     runs-on: ubuntu-latest
 
     steps:
