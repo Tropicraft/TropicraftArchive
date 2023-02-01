@@ -21,7 +21,7 @@ import net.tropicraft.registry.TCItemRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockbambooChute extends BlockTropicraft implements IPlantable {
+public class BlockBambooChute extends BlockTropicraft implements IPlantable {
 	
     @SideOnly(Side.CLIENT)
 	private IIcon sideIcon;
@@ -41,7 +41,7 @@ public class BlockbambooChute extends BlockTropicraft implements IPlantable {
     @SideOnly(Side.CLIENT)
     private IIcon leafFlippedIcon;
 	
-	public BlockbambooChute() {
+	public BlockBambooChute() {
 		super(Material.plants);
 //		setHardness(1.0F);
 //		setResistance(4.0F);
